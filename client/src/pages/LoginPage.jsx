@@ -117,21 +117,6 @@ export default function LoginPage() {
               </Link>
             </p>
           </div>
-
-          {/* Demo credentials */}
-          <div className="mt-6 p-4 rounded-xl bg-dark-800/30 border border-dark-700/50">
-            <p className="text-xs font-semibold text-dark-400 uppercase tracking-wider mb-3">Demo Accounts</p>
-            <div className="space-y-2 text-xs text-dark-400">
-              <div className="flex justify-between items-center">
-                <span>👤 Citizen:</span>
-                <code className="text-primary-400">rahul@gmail.com / user123</code>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>🛡️ Admin:</span>
-                <code className="text-primary-400">admin@resqai.com / admin123</code>
-              </div>
-            </div>
-          </div>
         </div>
       </motion.div>
     </div>
