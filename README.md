@@ -1,209 +1,243 @@
-# 🚑 ResQ AI
+ResQ AI
 
-> *Every Second Saves a Life.*
+ResQ AI is an emergency incident reporting and management system developed to help citizens report emergencies quickly and assist administrators in managing incidents through a centralized dashboard.
 
-An AI-powered Emergency Incident Triage and Response System that helps citizens report emergencies quickly and assists emergency coordinators in prioritizing and managing incidents through a centralized dashboard.
+The main goal of this project is to simplify emergency reporting by allowing users to submit incident details, upload images, and receive AI-assisted analysis. The system helps organize emergency reports so that administrators can review, prioritize, and update incident status efficiently.
 
-![ResQ AI](https://img.shields.io/badge/ResQ-AI-red?style=for-the-badge&logo=first-aid)
-![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?style=flat-square&logo=fastapi)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwindcss)
+Project Objective
 
----
+The objective of this project is to reduce the time required to collect and organize emergency information. It provides a structured platform where emergency reports can be submitted, analyzed, and managed from a single dashboard.
 
-## 🎯 Problem Statement
+Key Features
 
-Emergency response today is often delayed because reports are processed manually. Citizens struggle to explain incidents accurately, while emergency services receive many reports simultaneously and must manually determine which require immediate attention.
+For Citizens
 
-**ResQ AI** solves this by providing:
-- Quick emergency reporting for citizens
-- AI-powered incident classification and severity estimation
-- Automated first-aid guidance generation
-- A real-time admin dashboard for emergency coordinators
+• User Registration and Login
+• Report Emergency Incidents
+• Upload Incident Images
+• Add Incident Description
+• View Submitted Reports
+• Track Report Status
+• Receive AI-generated Analysis
+• View First Aid Suggestions
 
----
+For Administrators
 
-## ✨ Features
+• Secure Admin Login
+• View All Emergency Reports
+• Search and Filter Incidents
+• Update Incident Status
+• Dashboard with Statistics
+• Monitor Recent Activities
+• View Incident Details
 
-### For Citizens
-- 📝 Report emergencies with images and descriptions
-- 🤖 AI-powered incident analysis and classification
-- 🩹 Instant first-aid recommendations
-- 📊 Track report status and history
-- 🔔 Real-time status notifications
+AI Features
 
-### For Administrators
-- 📈 Real-time analytics dashboard
-- 🔍 Search, filter, and sort incidents
-- 🚨 Priority-based incident management
-- 📊 Charts and statistics
-- ✅ Status management workflow
+• Detect Emergency Category
+• Estimate Incident Severity
+• Generate First Aid Instructions
+• Create Emergency Summary
+• Recommend Required Emergency Services
 
-### AI Capabilities
-- 🖼️ Image-based incident classification
-- ⚠️ Severity prediction (Critical/High/Medium/Low)
-- 🏥 Emergency service recommendations
-- 🩹 First-aid instruction generation
-- 📋 Structured report generation
+Technology Used
 
----
+Frontend
 
-## 🏗️ Tech Stack
+React
+Vite
+Tailwind CSS
+Framer Motion
+Lucide React
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | React 18, Vite, Tailwind CSS 3, Framer Motion |
-| **Backend** | FastAPI, Python 3.10+ |
-| **Database** | Supabase (PostgreSQL) |
-| **Authentication** | Clerk |
-| **Storage** | Supabase Storage |
-| **Charts** | Recharts |
-| **Icons** | Lucide React |
-| **Deployment** | Vercel (frontend), Railway (backend) |
+Backend
 
----
+FastAPI
+Python
 
-## 📁 Project Structure
+Database
 
-```
-ResQ-AI/
-├── client/                    # React + Vite frontend
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   │   ├── ui/            # Reusable UI components
-│   │   │   ├── landing/       # Landing page sections
-│   │   │   ├── dashboard/     # Dashboard components
-│   │   │   └── layout/        # Layout components
-│   │   ├── pages/
-│   │   │   ├── citizen/       # Citizen pages
-│   │   │   └── admin/         # Admin pages
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── context/
-│   │   └── utils/
-│   └── package.json
-│
-├── server/                    # FastAPI backend
-│   ├── main.py
-│   ├── routes/
-│   ├── controllers/
-│   ├── models/
-│   ├── services/
-│   ├── middleware/
-│   └── database/
-│
-└── README.md
-```
+Supabase
 
----
+Authentication
 
-## 🚀 Getting Started
+Clerk Authentication
 
-### Prerequisites
-- Node.js 18+
-- Python 3.10+
-- npm or yarn
+Charts
 
-### Frontend Setup
+Recharts
 
-```bash
+Deployment
+
+Frontend - Vercel
+
+Backend - Railway
+
+Project Structure
+
+client
+
+components
+
+pages
+
+services
+
+hooks
+
+context
+
+assets
+
+server
+
+routes
+
+controllers
+
+models
+
+services
+
+database
+
+middleware
+
+Installation
+
+Clone the repository.
+
+Install frontend dependencies.
+
 cd client
+
 npm install
+
 npm run dev
-```
 
-### Backend Setup
+Install backend dependencies.
 
-```bash
 cd server
+
 pip install -r requirements.txt
+
 uvicorn main:app --reload
-```
 
-### Environment Variables
+Project Workflow
 
-Copy `.env.example` to `.env` and fill in your credentials:
+Citizen logs into the application.
 
-```bash
-cp .env.example .env
-```
+↓
 
----
+Reports an emergency.
 
-## 🔄 Incident Categories
+↓
 
-| Category | Icon |
-|----------|------|
-| Road Accident | 🚗 |
-| Fire | 🔥 |
-| Flood | 🌊 |
-| Medical Emergency | 🏥 |
-| Earthquake | 🌍 |
-| Building Collapse | 🏚️ |
-| Gas Leak | 💨 |
-| Chemical Spill | ☣️ |
+Uploads an image and enters incident details.
 
----
+↓
 
-## 📊 Severity Levels
+AI analyzes the incident.
 
-| Level | Color | Description |
-|-------|-------|-------------|
-| **Critical** | 🔴 Red | Immediate life threat |
-| **High** | 🟠 Orange | Serious, urgent attention |
-| **Medium** | 🟡 Yellow | Moderate, needs response |
-| **Low** | 🟢 Green | Minor, non-urgent |
+↓
 
----
+The system generates emergency recommendations.
 
-## 🔄 Incident Status Flow
+↓
 
-```
-Pending → Assigned → In Progress → Resolved → Closed
-```
+The report is stored in the database.
 
----
+↓
 
-## 👥 User Roles
+The administrator reviews the report.
 
-### Citizen
-- Register and login
-- Report emergencies
-- Upload images
-- View AI analysis
-- Track report history
+↓
 
-### Admin
-- View all incidents
-- Filter and search reports
-- Update incident status
-- View analytics and charts
-- Generate reports
+Status is updated.
 
----
+↓
 
-## 🔮 Future Scope
+Citizen can track the report status.
 
-- 🚁 Drone Integration
-- 🏥 Hospital API Integration
-- 🚑 Ambulance Tracking
-- 🎙️ Voice Reporting
-- 📴 Offline Mode
-- 📱 SMS Alerts
-- 🏛️ Government Integration
+Emergency Categories
 
----
+Road Accident
 
-## 📄 License
+Fire
 
-This project is licensed under the MIT License.
+Flood
 
----
+Medical Emergency
 
-## 🙏 Acknowledgments
+Building Collapse
 
-Built with ❤️ for emergency response innovation.
+Gas Leak
 
-*Every second saves a life.* 🚑
+Earthquake
+
+Chemical Spill
+
+Severity Levels
+
+Critical
+
+High
+
+Medium
+
+Low
+
+Current Limitations
+
+The project currently depends on an internet connection.
+
+Location tracking is limited.
+
+Emergency dispatch is simulated for demonstration purposes.
+
+Future Improvements
+
+Real-time ambulance tracking
+
+Hospital availability integration
+
+Emergency SMS alerts
+
+Offline emergency reporting
+
+Government emergency service integration
+
+Voice-based emergency reporting
+
+Screenshots
+
+Home Page
+
+Citizen Dashboard
+
+Emergency Report Page
+
+AI Analysis Page
+
+Admin Dashboard
+
+Challenges During Development
+
+Creating a clean and responsive user interface.
+
+Managing emergency report workflow.
+
+Integrating AI analysis into the reporting process.
+
+Displaying dashboard analytics efficiently.
+
+Handling image uploads securely.
+
+Author
+
+Vedant Khade
+
+JD College of Engineering and Management
+
+Final Year Engineering Project
+
+Thank you for visiting this project.
