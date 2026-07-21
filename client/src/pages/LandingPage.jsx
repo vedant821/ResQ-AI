@@ -3,7 +3,7 @@ import Hero from '../components/landing/Hero';
 import Features from '../components/landing/Features';
 import HowItWorks from '../components/landing/HowItWorks';
 import Statistics from '../components/landing/Statistics';
-import Testimonials from '../components/landing/Testimonials';
+import TriageSimulator from '../components/landing/TriageSimulator';
 import FAQ from '../components/landing/FAQ';
 import Footer from '../components/layout/Footer';
 
@@ -15,7 +15,7 @@ export default function LandingPage() {
       <Features />
       <HowItWorks />
       <Statistics />
-      <Testimonials />
+      <TriageSimulator />
       <FAQ />
       <Footer />
     </div>
