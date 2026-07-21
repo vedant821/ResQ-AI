@@ -28,7 +28,7 @@ export default function CitizenDashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-dark-100">
             Welcome back, <span className="gradient-text">{user?.name?.split(' ')[0]}</span>
           </h1>
           <p className="text-dark-400 text-sm mt-1">Here's an overview of your emergency reports</p>
@@ -86,7 +86,7 @@ export default function CitizenDashboard() {
                 <AlertTriangle size={28} className="text-emergency-400" />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-white">Report Emergency</h3>
+                <h3 className="text-lg font-semibold text-dark-100">Report Emergency</h3>
                 <p className="text-sm text-dark-400">Upload image and describe the incident</p>
               </div>
               <ArrowRight size={20} className="text-dark-500 group-hover:text-emergency-400 group-hover:translate-x-1 transition-all" />
@@ -104,7 +104,7 @@ export default function CitizenDashboard() {
                 <FileText size={28} className="text-primary-400" />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-white">View History</h3>
+                <h3 className="text-lg font-semibold text-dark-100">View History</h3>
                 <p className="text-sm text-dark-400">Check status of your previous reports</p>
               </div>
               <ArrowRight size={20} className="text-dark-500 group-hover:text-primary-400 group-hover:translate-x-1 transition-all" />
@@ -116,7 +116,7 @@ export default function CitizenDashboard() {
       {/* Recent Reports */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-white">Recent Reports</h2>
+          <h2 className="text-lg font-semibold text-dark-100">Recent Reports</h2>
           <Link to="/history" className="text-sm text-primary-400 hover:text-primary-300">
             View All →
           </Link>
@@ -155,7 +155,7 @@ export default function CitizenDashboard() {
                       {incident.type === 'Chemical Spill' && '☣️'}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-white">{incident.title}</p>
+                      <p className="text-sm font-semibold text-dark-100">{incident.title}</p>
                       <p className="text-xs text-dark-500">
                         {new Date(incident.createdAt).toLocaleDateString('en-IN', {
                           day: 'numeric',

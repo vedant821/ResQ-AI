@@ -84,7 +84,7 @@ export default function ReportEmergency() {
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-dark-100 flex items-center gap-2">
           <AlertTriangle size={24} className="text-emergency-400" />
           Report Emergency
         </h1>
@@ -178,7 +178,7 @@ export default function ReportEmergency() {
               <button
                 type="button"
                 onClick={removeImage}
-                className="absolute top-2 right-2 p-1.5 rounded-lg bg-dark-900/80 text-white hover:bg-emergency-500 transition-colors"
+                className="absolute top-2 right-2 p-1.5 rounded-lg bg-dark-800/80 text-dark-100 hover:bg-emergency-500 hover:text-white transition-colors"
               >
                 <X size={16} />
               </button>
