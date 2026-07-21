@@ -52,10 +52,12 @@ def add_incident(incident_data: dict):
     return incident_data
 
 
-def update_incident_status(incident_id: str, new_status: str):
+def update_incident_status(incident_id: str, new_status: str, dispatched_units: list = None):
     for inc in INCIDENTS:
         if inc["id"] == incident_id:
             inc["status"] = new_status
+            if dispatched_units is not None:
+                inc["dispatched_units"] = dispatched_units
             inc["updated_at"] = datetime.utcnow().isoformat() + "Z"
             return inc
     return None

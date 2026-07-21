@@ -22,6 +22,8 @@ const mapIncident = (inc) => {
     reporterName: inc.reporter_name || inc.reporterName,
     reportedBy: inc.reported_by || inc.reportedBy,
     priorityScore: inc.priority_score || inc.priorityScore,
+    imageUrl: inc.image_url || inc.imageUrl,
+    dispatchedUnits: inc.dispatched_units || inc.dispatchedUnits || [],
     analysis: mappedAnalysis,
   };
 };
@@ -95,6 +97,7 @@ export function IncidentProvider({ children }) {
           contact_number: incidentData.contactNumber,
           reported_by: user?.id || 'unknown',
           reporter_name: user?.name || 'Anonymous',
+          image_url: incidentData.imageUrl,
         }),
       });
 
@@ -121,13 +124,16 @@ export function IncidentProvider({ children }) {
     return newIncident;
   }, [user]);
 
-  const updateStatus = useCallback(async (id, newStatus) => {
+  const updateStatus = useCallback(async (id, newStatus, dispatchedUnits = []) => {
     // Try patching backend
     try {
       const res = await fetch(`${API_URL}/incidents/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ 
+          status: newStatus,
+          dispatched_units: dispatchedUnits
+        }),
       });
 
       if (res.ok) {
@@ -142,7 +148,12 @@ export function IncidentProvider({ children }) {
     setIncidents((prev) => {
       const updated = prev.map((inc) =>
         inc.id === id
-          ? { ...inc, status: newStatus, updatedAt: new Date().toISOString() }
+          ? { 
+              ...inc, 
+              status: newStatus, 
+              dispatchedUnits: dispatchedUnits,
+              updatedAt: new Date().toISOString() 
+            }
           : inc
       );
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));

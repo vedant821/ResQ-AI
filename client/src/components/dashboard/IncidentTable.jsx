@@ -25,6 +25,8 @@ export default function IncidentTable() {
   const [selectedIncident, setSelectedIncident] = useState(null);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [targetStatus, setTargetStatus] = useState('');
+  const [selectedUnits, setSelectedUnits] = useState([]);
 
   const typeEmoji = {
     'Road Accident': '🚗',
@@ -58,9 +60,22 @@ export default function IncidentTable() {
     return 0;
   });
 
-  const handleStatusChange = (newStatus) => {
+  const openStatusModal = (incident) => {
+    setSelectedIncident(incident);
+    setTargetStatus(incident.status);
+    setSelectedUnits(incident.dispatchedUnits || []);
+    setStatusModalOpen(true);
+  };
+
+  const toggleUnit = (unit) => {
+    setSelectedUnits((prev) =>
+      prev.includes(unit) ? prev.filter((u) => u !== unit) : [...prev, unit]
+    );
+  };
+
+  const handleStatusChange = (newStatus, units = selectedUnits) => {
     if (selectedIncident) {
-      updateStatus(selectedIncident.id, newStatus);
+      updateStatus(selectedIncident.id, newStatus, units);
       setStatusModalOpen(false);
       setSelectedIncident(null);
     }
@@ -174,7 +189,7 @@ export default function IncidentTable() {
                         <Eye size={16} />
                       </button>
                       <button
-                        onClick={() => { setSelectedIncident(incident); setStatusModalOpen(true); }}
+                        onClick={() => openStatusModal(incident)}
                         className="p-1.5 rounded-lg text-dark-400 hover:text-amber-400 hover:bg-dark-700 transition-colors"
                         title="Update Status"
                       >
@@ -216,18 +231,62 @@ export default function IncidentTable() {
               {STATUS_OPTIONS.map((status) => (
                 <button
                   key={status}
-                  onClick={() => handleStatusChange(status)}
-                  disabled={status === selectedIncident.status}
-                  className={`p-3 rounded-xl text-sm font-medium transition-all ${
-                    status === selectedIncident.status
-                      ? 'bg-dark-800/50 text-dark-500 cursor-not-allowed'
-                      : 'bg-dark-800/30 text-dark-300 hover:bg-primary-500/10 hover:text-primary-400 border border-dark-700 hover:border-primary-500/30'
+                  type="button"
+                  onClick={() => {
+                    setTargetStatus(status);
+                    if (status !== 'Assigned' && status !== 'In Progress') {
+                      setSelectedUnits([]);
+                    }
+                  }}
+                  className={`p-3 rounded-xl text-sm font-medium transition-all border ${
+                    targetStatus === status
+                      ? 'bg-primary-500/20 border-primary-500 text-primary-400 font-semibold'
+                      : 'bg-dark-800/30 border-dark-700 text-dark-300 hover:bg-dark-800'
                   }`}
                 >
                   {status}
                 </button>
               ))}
             </div>
+
+            {(targetStatus === 'Assigned' || targetStatus === 'In Progress') && (
+              <div className="p-4 rounded-xl bg-dark-800/30 border border-dark-700/50 space-y-3">
+                <p className="text-xs font-semibold text-primary-400">🚨 Dispatch Crew Vehicles:</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {['Ambulance', 'Fire Truck', 'Police', 'Hazmat'].map((unit) => {
+                    const isSelected = selectedUnits.includes(unit);
+                    return (
+                      <button
+                        key={unit}
+                        type="button"
+                        onClick={() => toggleUnit(unit)}
+                        className={`p-2.5 rounded-lg text-xs font-medium border flex items-center justify-between transition-all ${
+                          isSelected
+                            ? 'bg-primary-500/20 border-primary-500/50 text-primary-400'
+                            : 'bg-dark-900/50 border-dark-700 text-dark-400 hover:border-dark-600'
+                        }`}
+                      >
+                        <span>
+                          {unit === 'Ambulance' && '🚑 '}
+                          {unit === 'Fire Truck' && '🚒 '}
+                          {unit === 'Police' && '🚓 '}
+                          {unit === 'Hazmat' && '☣️ '}
+                          {unit}
+                        </span>
+                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-primary-400" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            <button
+              onClick={() => handleStatusChange(targetStatus)}
+              className="btn-primary w-full text-sm py-3 mt-4"
+            >
+              Confirm Status & Dispatch Action
+            </button>
           </div>
         )}
       </Modal>
@@ -259,10 +318,39 @@ export default function IncidentTable() {
                 <p className="text-sm text-primary-400 font-semibold">{selectedIncident.confidence ? `${Math.round(selectedIncident.confidence * 100)}%` : 'N/A'}</p>
               </div>
             </div>
+            {selectedIncident.imageUrl && (
+              <div className="p-3 rounded-xl bg-dark-800/30">
+                <p className="text-xs text-dark-500 mb-2">📸 Incident Photo</p>
+                <img
+                  src={selectedIncident.imageUrl}
+                  alt="Incident Triage preview"
+                  className="w-full max-h-60 object-cover rounded-lg border border-dark-700"
+                />
+              </div>
+            )}
             <div className="p-3 rounded-xl bg-dark-800/30">
               <p className="text-xs text-dark-500 mb-1">Description</p>
               <p className="text-sm text-dark-300 leading-relaxed">{selectedIncident.description}</p>
             </div>
+            {selectedIncident.dispatchedUnits && selectedIncident.dispatchedUnits.length > 0 && (
+              <div className="p-3 rounded-xl bg-dark-800/30 border border-primary-500/20">
+                <p className="text-xs text-primary-400 font-bold mb-2">⚡ Active Dispatches</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedIncident.dispatchedUnits.map((unit) => (
+                    <span
+                      key={unit}
+                      className="px-2.5 py-1 text-xs font-semibold bg-primary-500/10 border border-primary-500/20 text-primary-400 rounded-full"
+                    >
+                      {unit === 'Ambulance' && '🚑 '}
+                      {unit === 'Fire Truck' && '🚒 '}
+                      {unit === 'Police' && '🚓 '}
+                      {unit === 'Hazmat' && '☣️ '}
+                      {unit}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 rounded-xl bg-dark-800/30">
                 <p className="text-xs text-dark-500 mb-1">📍 Location</p>

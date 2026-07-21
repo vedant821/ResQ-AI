@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException
 from database.store import get_incidents, get_incident_by_id, add_incident, update_incident_status
 from services.ai_service import analyze_incident
 from services.notification_service import send_incident_email
+from services.pdf_service import generate_incident_pdf_stream
+from fastapi.responses import StreamingResponse
 import time
 
 router = APIRouter(prefix="/api/incidents", tags=["incidents"])
@@ -18,6 +20,20 @@ async def get_incident(incident_id: str):
     if not incident:
         raise HTTPException(status_code=404, detail="Incident not found")
     return incident
+
+
+@router.get("/{incident_id}/pdf")
+async def get_incident_pdf(incident_id: str):
+    incident = get_incident_by_id(incident_id)
+    if not incident:
+        raise HTTPException(status_code=404, detail="Incident not found")
+    
+    pdf_stream = generate_incident_pdf_stream(incident)
+    return StreamingResponse(
+        pdf_stream,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename=ResQ-Report-{incident_id}.pdf"}
+    )
 
 
 @router.post("/")
@@ -41,7 +57,7 @@ async def create_incident(data: dict):
         "reporter_name": data.get("reporter_name", "Anonymous"),
         "confidence": analysis["confidence"],
         "priority_score": analysis["priority_score"],
-        "image_url": None,
+        "image_url": data.get("image_url"),  # Support base64 image strings
         "analysis": analysis,
         "created_at": f"{time.strftime('%Y-%m-%dT%H:%M:%S')}Z",
         "updated_at": f"{time.strftime('%Y-%m-%dT%H:%M:%S')}Z",
@@ -65,8 +81,15 @@ async def change_status(incident_id: str, data: dict):
     if new_status not in valid_statuses:
         raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {valid_statuses}")
 
-    updated = update_incident_status(incident_id, new_status)
+    dispatched_units = data.get("dispatched_units", [])
+    updated = update_incident_status(incident_id, new_status, dispatched_units)
     if not updated:
         raise HTTPException(status_code=404, detail="Incident not found")
+
+    # Trigger SMS dispatch simulation
+    if dispatched_units:
+        print(f"\n[SMS DISPATCH ALERT] Sent to reporter {updated.get('reporter_name')} ({updated.get('contact_number')}):")
+        print(f"Update: ResQ AI crew status is '{new_status}'. Dispatched units: {', '.join(dispatched_units)} are en route to {updated.get('location')}.")
+        print(f"=====================================\n")
 
     return updated

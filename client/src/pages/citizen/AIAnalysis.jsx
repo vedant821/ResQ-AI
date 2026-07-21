@@ -48,20 +48,29 @@ export default function AIAnalysis() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => navigate(-1)}
-          className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-dark-800 transition-colors"
-        >
-          <ArrowLeft size={20} />
-        </button>
-        <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Brain size={24} className="text-primary-400" />
-            AI Analysis Report
-          </h1>
-          <p className="text-dark-400 text-sm mt-0.5">Incident #{incident.id}</p>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 rounded-lg text-dark-400 hover:text-primary-600 hover:bg-dark-800 transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <div>
+            <h1 className="text-2xl font-bold text-dark-100 flex items-center gap-2">
+              <Brain size={24} className="text-primary-400" />
+              AI Analysis Report
+            </h1>
+            <p className="text-dark-400 text-sm mt-0.5">Incident #{incident.id}</p>
+          </div>
         </div>
+        <a 
+          href={`/api/incidents/${incident.id}/pdf`}
+          download
+          className="btn-primary text-xs py-2.5 px-5 rounded-full flex items-center gap-2"
+        >
+          Download PDF Report
+        </a>
       </div>
 
       {/* Analysis Success Banner */}
