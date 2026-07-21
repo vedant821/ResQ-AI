@@ -5,6 +5,27 @@ const IncidentContext = createContext(null);
 const STORAGE_KEY = 'resq_incidents';
 const API_URL = '/api';
 
+const mapIncident = (inc) => {
+  if (!inc) return inc;
+  
+  const mappedAnalysis = inc.analysis ? {
+    ...inc.analysis,
+    incidentType: inc.analysis.incident_type || inc.analysis.incidentType,
+    confidencePercent: inc.analysis.confidence_percent || inc.analysis.confidencePercent,
+    firstAid: inc.analysis.first_aid || inc.analysis.firstAid,
+    emergencyServices: inc.analysis.emergency_services || inc.analysis.emergencyServices,
+  } : null;
+
+  return {
+    ...inc,
+    contactNumber: inc.contact_number || inc.contactNumber,
+    reporterName: inc.reporter_name || inc.reporterName,
+    reportedBy: inc.reported_by || inc.reportedBy,
+    priorityScore: inc.priority_score || inc.priorityScore,
+    analysis: mappedAnalysis,
+  };
+};
+
 export function IncidentProvider({ children }) {
   const [incidents, setIncidents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,14 +51,7 @@ export function IncidentProvider({ children }) {
       const res = await fetch(`${API_URL}/incidents/`);
       if (res.ok) {
         const data = await res.json();
-        // Map backend snake_case properties to frontend camelCase if needed
-        const mapped = data.map(inc => ({
-          ...inc,
-          contactNumber: inc.contact_number || inc.contactNumber,
-          reporterName: inc.reporter_name || inc.reporterName,
-          reportedBy: inc.reported_by || inc.reportedBy,
-          priorityScore: inc.priority_score || inc.priorityScore,
-        }));
+        const mapped = data.map(mapIncident);
         setIncidents(mapped);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(mapped));
       } else {
@@ -86,13 +100,7 @@ export function IncidentProvider({ children }) {
 
       if (res.ok) {
         const created = await res.json();
-        const mappedCreated = {
-          ...created,
-          contactNumber: created.contact_number,
-          reporterName: created.reporter_name,
-          reportedBy: created.reported_by,
-          priorityScore: created.priority_score,
-        };
+        const mappedCreated = mapIncident(created);
         setIncidents((prev) => {
           const updated = [mappedCreated, ...prev];
           localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));

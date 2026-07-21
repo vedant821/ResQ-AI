@@ -63,7 +63,7 @@ export default function ReportEmergency() {
     const analysis = analyzeIncident(form.description, form.type, imageFile);
 
     // Create incident
-    const incident = addIncident({
+    const incident = await addIncident({
       title: form.title,
       type: analysis.incidentType,
       description: form.description,
