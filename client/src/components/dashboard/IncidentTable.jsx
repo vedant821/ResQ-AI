@@ -44,6 +44,62 @@ const getBoundingBoxes = (type) => {
   }
 };
 
+function AdminDispatchTracker({ incident }) {
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [distance, setDistance] = useState(0.0);
+  const [percent, setPercent] = useState(0);
+
+  useEffect(() => {
+    const calculateETA = () => {
+      const totalDuration = 5 * 60 * 1000;
+      const elapsed = Date.now() - new Date(incident.createdAt).getTime();
+      const remaining = Math.max(0, totalDuration - elapsed);
+      
+      setTimeLeft(Math.floor(remaining / 1000));
+
+      const ratio = Math.min(1, elapsed / totalDuration);
+      setPercent(Math.round(ratio * 100));
+
+      const totalDist = 3.5;
+      setDistance(Math.max(0, totalDist - ratio * totalDist));
+    };
+
+    calculateETA();
+    const timer = setInterval(calculateETA, 1000);
+    return () => clearInterval(timer);
+  }, [incident.createdAt]);
+
+  const formatTime = (secs) => {
+    if (secs === 0) return 'Arrived on Scene';
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m}m ${s}s (Dist: ${distance.toFixed(2)} km)`;
+  };
+
+  return (
+    <div className="mt-3 space-y-2 border-t border-dark-700/60 pt-3">
+      <div className="flex justify-between text-[10px] text-dark-400">
+        <span>Responder Progress</span>
+        <span className="font-semibold text-primary-400">{formatTime(timeLeft)}</span>
+      </div>
+      <div className="relative h-4 bg-dark-900 border border-dark-700 rounded-full flex items-center px-2 overflow-hidden">
+        <div 
+          className="absolute left-0 top-0 bottom-0 bg-primary-500/10 transition-all duration-1000" 
+          style={{ width: `${percent}%` }} 
+        />
+        <div 
+          className="absolute text-xs" 
+          style={{ left: `calc(${percent}% - 8px)` }}
+        >
+          {incident.dispatchedUnits.includes('Ambulance') ? '🚑' :
+           incident.dispatchedUnits.includes('Fire Truck') ? '🚒' :
+           incident.dispatchedUnits.includes('Police') ? '🚓' : '☣️'}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function IncidentTable() {
   const { incidents, updateStatus } = useIncidents();
   const [searchTerm, setSearchTerm] = useState('');
@@ -402,6 +458,10 @@ export default function IncidentTable() {
                     </span>
                   ))}
                 </div>
+                {/* Admin Live tracking en-route */}
+                {(selectedIncident.status === 'Assigned' || selectedIncident.status === 'In Progress') && (
+                  <AdminDispatchTracker incident={selectedIncident} />
+                )}
               </div>
             )}
             <div className="grid grid-cols-2 gap-4">

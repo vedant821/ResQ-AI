@@ -46,6 +46,127 @@ const getBoundingBoxes = (type) => {
   }
 };
 
+function LiveDispatchTracker({ incident }) {
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [distance, setDistance] = useState(0.0);
+  const [percent, setPercent] = useState(0);
+
+  useEffect(() => {
+    const calculateETA = () => {
+      const totalDuration = 5 * 60 * 1000; // 5 minutes simulation
+      const elapsed = Date.now() - new Date(incident.createdAt).getTime();
+      const remaining = Math.max(0, totalDuration - elapsed);
+      
+      const remSecs = Math.floor(remaining / 1000);
+      setTimeLeft(remSecs);
+
+      const ratio = Math.min(1, elapsed / totalDuration);
+      setPercent(Math.round(ratio * 100));
+
+      const totalDist = 3.5; // 3.5 km away total
+      const currentDist = Math.max(0, totalDist - ratio * totalDist);
+      setDistance(currentDist);
+    };
+
+    calculateETA();
+    const timer = setInterval(calculateETA, 1000);
+    return () => clearInterval(timer);
+  }, [incident.createdAt]);
+
+  const hasDispatches = incident.dispatchedUnits && incident.dispatchedUnits.length > 0;
+  const isEnRoute = (incident.status === 'Assigned' || incident.status === 'In Progress') && hasDispatches;
+
+  if (!isEnRoute) {
+    return (
+      <div className="glass-card p-6 border border-dark-700/50">
+        <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+          <Clock size={16} className="text-dark-400" />
+          Responder Dispatch Status
+        </h3>
+        <p className="text-xs text-dark-400">
+          {incident.status === 'Pending' 
+            ? 'Awaiting coordinator triage review...' 
+            : 'Incident status: ' + incident.status}
+        </p>
+      </div>
+    );
+  }
+
+  const formatTime = (secs) => {
+    if (secs === 0) return 'Arrived on Scene';
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m}m ${s}s remaining`;
+  };
+
+  return (
+    <div className="glass-card p-6 border border-primary-500/30 bg-primary-500/5 space-y-4">
+      <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+        <h3 className="text-sm font-bold text-white flex items-center gap-2">
+          <Activity size={16} className="text-emergency-500 animate-pulse" />
+          Live Dispatch Tracking
+        </h3>
+        <span className="text-[10px] font-mono bg-emergency-500/10 border border-emergency-500/20 text-emergency-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+          En Route
+        </span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <p className="text-[10px] text-dark-400 uppercase font-semibold">Estimated Arrival</p>
+          <p className="text-sm font-bold text-white mt-0.5">{formatTime(timeLeft)}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-dark-400 uppercase font-semibold">Responder Distance</p>
+          <p className="text-sm font-bold text-primary-400 mt-0.5">
+            {timeLeft === 0 ? '0.0 km' : `${distance.toFixed(2)} km away`}
+          </p>
+        </div>
+      </div>
+
+      {/* Interactive progress bar */}
+      <div className="space-y-1.5 pt-2">
+        <div className="flex justify-between text-[9px] text-dark-500 font-mono">
+          <span>Base Station</span>
+          <span>Incident Location</span>
+        </div>
+        <div className="relative h-6 bg-dark-900/80 border border-dark-700 rounded-lg flex items-center px-4 overflow-hidden">
+          {/* Progress bar track */}
+          <div 
+            className="absolute left-0 top-0 bottom-0 bg-primary-500/10 transition-all duration-1000" 
+            style={{ width: `${percent}%` }} 
+          />
+          {/* Sliding Responder Icon */}
+          <motion.div 
+            className="absolute z-10 flex items-center justify-center text-sm"
+            style={{ left: `calc(${percent}% - 12px)` }}
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
+            {incident.dispatchedUnits.includes('Ambulance') ? '🚑' :
+             incident.dispatchedUnits.includes('Fire Truck') ? '🚒' :
+             incident.dispatchedUnits.includes('Police') ? '🚓' : '☣️'}
+          </motion.div>
+          {/* Connector dotted line */}
+          <div className="w-full border-t border-dashed border-dark-600" />
+        </div>
+      </div>
+      
+      {/* Active dispatched responders */}
+      <div className="space-y-1.5">
+        <p className="text-[10px] text-dark-500 uppercase font-semibold">Dispatched Vehicles:</p>
+        <div className="flex flex-wrap gap-1">
+          {incident.dispatchedUnits.map(unit => (
+            <span key={unit} className="px-2 py-0.5 rounded bg-dark-800 border border-dark-700 text-[10px] text-dark-300">
+              {unit}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AIAnalysis() {
   const { id } = useParams();
   const { getIncident } = useIncidents();
@@ -260,6 +381,9 @@ export default function AIAnalysis() {
 
         {/* Right Column - Summary */}
         <div className="space-y-6">
+          {/* Live Dispatch GPS Tracker */}
+          <LiveDispatchTracker incident={incident} />
+
           {/* Severity Gauge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
