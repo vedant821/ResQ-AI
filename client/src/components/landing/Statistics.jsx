@@ -77,7 +77,7 @@ export default function Statistics() {
           className="text-center mb-16"
         >
           <p className="text-primary-400 text-sm font-semibold uppercase tracking-wider mb-3">Impact</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-100 mb-4">
             Making a <span className="gradient-text">Difference</span>
           </h2>
           <p className="text-dark-400 max-w-xl mx-auto">
@@ -98,10 +98,10 @@ export default function Statistics() {
               <div className={`w-14 h-14 rounded-xl ${stat.bg} flex items-center justify-center mx-auto mb-4`}>
                 <stat.icon size={26} className={stat.color} />
               </div>
-              <p className="text-3xl md:text-4xl font-bold text-white mb-1">
+              <p className="text-3xl md:text-4xl font-bold text-dark-100 mb-1">
                 <AnimatedCounter end={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="text-white font-medium mb-1">{stat.label}</p>
+              <p className="text-dark-100 font-medium mb-1">{stat.label}</p>
               <p className="text-xs text-dark-500">{stat.description}</p>
             </motion.div>
           ))}

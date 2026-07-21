@@ -36,7 +36,7 @@ function FAQItem({ faq, isOpen, onClick }) {
         onClick={onClick}
         className="w-full flex items-center justify-between p-5 text-left"
       >
-        <span className="text-sm md:text-base font-medium text-white pr-4">{faq.question}</span>
+        <span className="text-sm md:text-base font-medium text-dark-100 pr-4">{faq.question}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -74,7 +74,7 @@ export default function FAQ() {
           className="text-center mb-12"
         >
           <p className="text-primary-400 text-sm font-semibold uppercase tracking-wider mb-3">FAQ</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-100 mb-4">
             Frequently Asked <span className="gradient-text">Questions</span>
           </h2>
         </motion.div>
