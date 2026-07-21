@@ -23,44 +23,7 @@ USERS = [
     },
 ]
 
-INCIDENTS = [
-    {
-        "id": "INC-001",
-        "title": "Major Highway Pile-up on NH48",
-        "type": "Road Accident",
-        "description": "Multi-vehicle collision involving 5 cars and a truck near Toll Plaza. Multiple people injured.",
-        "severity": "Critical",
-        "status": "In Progress",
-        "location": "NH48, Gurugram",
-        "contact_number": "+91 9876543210",
-        "reported_by": "citizen-001",
-        "reporter_name": "Rahul Sharma",
-        "confidence": 0.94,
-        "priority_score": 1,
-        "image_url": None,
-        "analysis": None,
-        "created_at": "2026-07-21T05:30:00Z",
-        "updated_at": "2026-07-21T06:15:00Z",
-    },
-    {
-        "id": "INC-002",
-        "title": "Warehouse Fire in Industrial Area",
-        "type": "Fire",
-        "description": "Large fire engulfing a chemical storage warehouse. Heavy smoke visible from 2km.",
-        "severity": "Critical",
-        "status": "Assigned",
-        "location": "MIDC Industrial Area, Pune",
-        "contact_number": "+91 9876543211",
-        "reported_by": "citizen-002",
-        "reporter_name": "Priya Patel",
-        "confidence": 0.91,
-        "priority_score": 1,
-        "image_url": None,
-        "analysis": None,
-        "created_at": "2026-07-21T04:45:00Z",
-        "updated_at": "2026-07-21T05:00:00Z",
-    },
-]
+INCIDENTS = []
 
 
 def get_users():

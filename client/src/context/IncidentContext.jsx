@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { MOCK_INCIDENTS } from '../services/mockData';
 import { useAuth } from './AuthContext';
 
 const IncidentContext = createContext(null);
@@ -18,10 +17,10 @@ export function IncidentProvider({ children }) {
       try {
         return JSON.parse(stored);
       } catch {
-        return [...MOCK_INCIDENTS];
+        return [];
       }
     }
-    return [...MOCK_INCIDENTS];
+    return [];
   }, []);
 
   // Fetch all incidents from FastAPI backend, fallback to localStorage
