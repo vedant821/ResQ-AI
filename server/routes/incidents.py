@@ -44,13 +44,27 @@ async def create_incident(data: dict):
         selected_type=data.get("type"),
     )
 
+    # Map AI classified type to actual dispatcher units autonomously
+    dispatched_units = []
+    incident_type = analysis["incident_type"]
+    if incident_type in ["Road Accident", "Medical Emergency", "Fire", "Flood", "Earthquake", "Building Collapse", "Gas Leak", "Chemical Spill"]:
+        dispatched_units.append("Ambulance")
+    if incident_type in ["Fire", "Gas Leak", "Chemical Spill", "Building Collapse", "Earthquake"]:
+        dispatched_units.append("Fire Truck")
+    if incident_type in ["Road Accident", "Medical Emergency", "Fire", "Gas Leak", "Chemical Spill"]:
+        dispatched_units.append("Police")
+    if incident_type in ["Gas Leak", "Chemical Spill"]:
+        dispatched_units.append("Hazmat")
+
+    status = "Assigned" if dispatched_units else "Pending"
+
     incident = {
         "id": f"INC-{str(int(time.time()))[-6:]}",
         "title": data["title"],
-        "type": analysis["incident_type"],
+        "type": incident_type,
         "description": data["description"],
         "severity": analysis["severity"],
-        "status": "Pending",
+        "status": status,
         "location": data.get("location", "Unknown"),
         "contact_number": data.get("contact_number"),
         "reported_by": data.get("reported_by", "unknown"),
@@ -59,6 +73,7 @@ async def create_incident(data: dict):
         "priority_score": analysis["priority_score"],
         "image_url": data.get("image_url"),  # Support base64 image strings
         "analysis": analysis,
+        "dispatched_units": dispatched_units,
         "created_at": f"{time.strftime('%Y-%m-%dT%H:%M:%S')}Z",
         "updated_at": f"{time.strftime('%Y-%m-%dT%H:%M:%S')}Z",
     }
@@ -67,6 +82,13 @@ async def create_incident(data: dict):
     
     # Trigger real-time email notification
     send_incident_email(incident)
+
+    # Trigger Autonomous SMS dispatch simulation
+    if dispatched_units:
+        print(f"\n[AUTONOMOUS AI AGENT DISPATCH ALERT] Sent to reporter {data.get('reporter_name', 'Anonymous')} ({data.get('contact_number', 'N/A')}):")
+        print(f"Update: ResQ AI Autonomous Agent has triaged this incident as '{status}'.")
+        print(f"Automatically Dispatched: {', '.join(dispatched_units)} are en route to {data.get('location', 'Unknown')}.")
+        print(f"=====================================\n")
     
     return incident
 
