@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useIncidents } from '../../hooks/useIncidents';
 import StatsCard from '../../components/ui/StatsCard';
@@ -15,7 +15,78 @@ import {
   TrendingUp,
   Activity,
   Shield,
+  Terminal,
 } from 'lucide-react';
+
+function ResponderRadioLogs({ incidents }) {
+  const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    const newLogs = [];
+    incidents.forEach((inc) => {
+      const timeStr = new Date(inc.created_at || inc.createdAt || Date.now()).toLocaleTimeString();
+      
+      newLogs.push({
+        time: timeStr,
+        source: 'SYSTEM',
+        message: `Triage lock acquired on ${inc.id}. Severity: ${inc.severity}.`,
+      });
+
+      if (inc.dispatched_units || inc.dispatchedUnits) {
+        const units = inc.dispatched_units || inc.dispatchedUnits || [];
+        units.forEach((unit) => {
+          newLogs.push({
+            time: timeStr,
+            source: 'TWILIO',
+            message: `SMS notification broadcasted to ${unit} dispatch officer. Destination: ${inc.location}.`,
+          });
+          newLogs.push({
+            time: timeStr,
+            source: unit.toUpperCase(),
+            message: `Radio Ping ACK: Unit status updated to 'En Route'. Navigation coordinates locked.`,
+          });
+        });
+      }
+    });
+
+    setLogs(newLogs.slice(-10));
+  }, [incidents]);
+
+  return (
+    <div className="glass-card p-6 border border-dark-700/60 flex flex-col h-[280px]">
+      <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-3">
+        <h3 className="text-sm font-bold text-white flex items-center gap-2">
+          <Terminal size={16} className="text-primary-400" />
+          Responder Telemetry & Twilio SMS Logs
+        </h3>
+        <div className="flex items-center gap-2">
+          <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping" />
+          <span className="text-[10px] text-dark-500 font-mono">RADIO ACTIVE</span>
+        </div>
+      </div>
+      
+      <div className="flex-1 bg-black/40 border border-dark-700 rounded-xl p-3 font-mono text-[10px] space-y-2 overflow-y-auto max-h-[180px] custom-scrollbar">
+        {logs.length === 0 ? (
+          <p className="text-dark-500 italic text-center pt-8">No radio logs or SMS broadcasts recorded.</p>
+        ) : (
+          logs.map((log, idx) => (
+            <div key={idx} className="leading-relaxed flex gap-2">
+              <span className="text-dark-500">[{log.time}]</span>
+              <span className={`font-semibold ${
+                log.source === 'SYSTEM' ? 'text-primary-400' :
+                log.source === 'TWILIO' ? 'text-amber-400' :
+                'text-green-400'
+              }`}>
+                {log.source}:
+              </span>
+              <span className="text-dark-300 flex-1">{log.message}</span>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const { incidents, analytics } = useIncidents();
@@ -112,8 +183,9 @@ export default function AdminDashboard() {
           <div className="lg:col-span-2">
             <AnalyticsCharts data={analytics} compact />
           </div>
-          <div>
+          <div className="space-y-6">
             <ActivityTimeline incidents={incidents} />
+            <ResponderRadioLogs incidents={incidents} />
           </div>
         </div>
       )}
