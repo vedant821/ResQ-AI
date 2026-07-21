@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useIncidents } from '../../hooks/useIncidents';
-import { ANALYTICS_DATA } from '../../services/mockData';
 import StatsCard from '../../components/ui/StatsCard';
 import Badge from '../../components/ui/Badge';
 import IncidentTable from '../../components/dashboard/IncidentTable';
@@ -19,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const { incidents } = useIncidents();
+  const { incidents, analytics } = useIncidents();
   const [activeTab, setActiveTab] = useState('overview');
 
   const total = incidents.length;
@@ -111,7 +110,7 @@ export default function AdminDashboard() {
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <AnalyticsCharts data={ANALYTICS_DATA} compact />
+            <AnalyticsCharts data={analytics} compact />
           </div>
           <div>
             <ActivityTimeline incidents={incidents} />
@@ -121,7 +120,7 @@ export default function AdminDashboard() {
 
       {activeTab === 'incidents' && <IncidentTable />}
 
-      {activeTab === 'analytics' && <AnalyticsCharts data={ANALYTICS_DATA} />}
+      {activeTab === 'analytics' && <AnalyticsCharts data={analytics} />}
     </div>
   );
 }
