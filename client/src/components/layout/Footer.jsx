@@ -12,7 +12,7 @@ export default function Footer() {
                 <Shield size={20} className="text-white" />
               </div>
               <span className="text-xl font-bold">
-                <span className="text-dark-50">ResQ</span>
+                <span className="text-white">ResQ</span>
                 <span className="gradient-text"> AI</span>
               </span>
             </div>
@@ -24,7 +24,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-dark-100 font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {['Home', 'Features', 'How It Works', 'About', 'Contact'].map((link) => (
                 <li key={link}>
@@ -38,13 +38,13 @@ export default function Footer() {
 
           {/* Emergency */}
           <div>
-            <h4 className="text-dark-100 font-semibold mb-4">Emergency Numbers</h4>
+            <h4 className="text-white font-semibold mb-4">Emergency Numbers</h4>
             <ul className="space-y-2 text-sm text-dark-400">
-              <li>🚔 Police: <span className="text-dark-100">100</span></li>
-              <li>🔥 Fire: <span className="text-dark-100">101</span></li>
-              <li>🚑 Ambulance: <span className="text-dark-100">108</span></li>
-              <li>🆘 Emergency: <span className="text-dark-100">112</span></li>
-              <li>👩 Women Helpline: <span className="text-dark-100">1091</span></li>
+              <li>🚔 Police: <span className="text-white">100</span></li>
+              <li>🔥 Fire: <span className="text-white">101</span></li>
+              <li>🚑 Ambulance: <span className="text-white">108</span></li>
+              <li>🆘 Emergency: <span className="text-white">112</span></li>
+              <li>👩 Women Helpline: <span className="text-white">1091</span></li>
             </ul>
           </div>
         </div>

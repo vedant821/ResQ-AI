@@ -58,17 +58,17 @@ export default {
           900: '#7f1d1d',
         },
         dark: {
-          50: '#0f172a',   // slate-900 (primary headings)
-          100: '#1e293b',  // slate-800
-          200: '#334155',  // slate-700
-          300: '#475569',  // slate-600 (body text)
-          400: '#64748b',  // slate-500
-          500: '#94a3b8',  // slate-400
-          600: '#cbd5e1',  // slate-300
-          700: '#e2e8f0',  // slate-200 (borders)
-          800: '#f1f5f9',  // slate-100 (inputs/highlights)
-          900: '#ffffff',  // white (cards)
-          950: '#f8fafc',  // slate-50 (main bg)
+          50: '#f8fafc',   // Text: #F8FAFC
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',  // Muted Text: #94A3B8
+          500: '#64748b',
+          600: '#475569',
+          700: '#1e293b',  // Surface / borders: #1E293B
+          800: '#0f172a',  // Surface: #0F172A
+          900: '#111827',  // Cards: #111827
+          950: '#050816',  // Background: #050816
         },
         severity: {
           critical: '#ef4444',

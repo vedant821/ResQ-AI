@@ -44,7 +44,7 @@ export default function Navbar() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className={`w-full max-w-5xl pointer-events-auto transition-all duration-500 rounded-full ${
             isScrolled
-              ? 'glass px-6 py-2 shadow-xl shadow-slate-200/50 border-dark-700 bg-white/70 backdrop-blur-md'
+              ? 'glass px-6 py-2 shadow-2xl shadow-black/40 border-white/5 bg-slate-950/60 backdrop-blur-md'
               : 'px-4 py-4 bg-transparent border-transparent'
           }`}
         >
@@ -58,29 +58,29 @@ export default function Navbar() {
                 <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-accent-500 rounded-full animate-ping" />
               </div>
               <span className="text-lg font-bold tracking-tight">
-                <span className="text-dark-50">ResQ</span>
-                <span className="text-primary-600">AI</span>
+                <span className="text-white">ResQ</span>
+                <span className="text-accent-400">AI</span>
               </span>
             </Link>
 
             {/* Desktop Navigation Link Capsules */}
-            <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-dark-800 border border-dark-700">
+            <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-white/5 border border-white/5">
               {navLinks.map((link) => {
                 const isActive = location.hash === link.path.replace('/', '') || (location.pathname === '/' && link.path === '/');
                 return (
                   <a
                     key={link.name}
                     href={link.path}
-                    className="relative px-4 py-1.5 text-xs font-semibold tracking-wide text-dark-300 hover:text-dark-50 transition-colors duration-300 rounded-full"
+                    className="relative px-4 py-1.5 text-xs font-semibold tracking-wide text-dark-400 hover:text-white transition-colors duration-300 rounded-full"
                   >
                     {isActive && (
                       <motion.span
                         layoutId="activeNavIndicator"
-                        className="absolute inset-0 bg-white shadow-sm rounded-full"
+                        className="absolute inset-0 bg-white/10 rounded-full"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
-                    <span className="relative z-10">{link.name}</span>
+                    {link.name}
                   </a>
                 );
               })}
@@ -92,21 +92,21 @@ export default function Navbar() {
                 <>
                   <Link
                     to={getDashboardPath()}
-                    className="flex items-center gap-2 text-xs font-semibold text-dark-200 hover:text-dark-50 px-3 py-1.5 rounded-lg hover:bg-dark-800 transition-all"
+                    className="flex items-center gap-2 text-xs font-semibold text-dark-50 hover:text-white px-3 py-1.5 rounded-lg hover:bg-white/5 transition-all"
                   >
                     <LayoutDashboard size={14} />
                     Dashboard
                   </Link>
                   <button
                     onClick={logout}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-dark-300 hover:text-red-500 transition-colors px-3 py-1.5 rounded-lg hover:bg-dark-800"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-dark-400 hover:text-emergency-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
                   >
                     <LogOut size={14} />
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="text-xs font-semibold text-dark-300 hover:text-primary-600 px-4 py-2 transition-colors">
+                  <Link to="/login" className="text-xs font-semibold text-white hover:text-accent-400 px-4 py-2 transition-colors">
                     Login
                   </Link>
                   <Link to="/register" className="btn-primary text-xs py-2 px-5 rounded-full flex items-center gap-2 group shadow-none">
@@ -119,7 +119,7 @@ export default function Navbar() {
 
             {/* Mobile menu trigger */}
             <button
-              className="md:hidden p-2 text-dark-300 hover:text-dark-50 hover:bg-dark-800 rounded-full transition-colors"
+              className="md:hidden p-2 text-dark-300 hover:text-white hover:bg-white/5 rounded-full transition-colors"
               onClick={() => setIsOpen(true)}
             >
               <Menu size={20} />
@@ -136,16 +136,16 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-white/95 backdrop-blur-xl flex flex-col justify-between p-8"
+            className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl flex flex-col justify-between p-8"
           >
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold tracking-tight">
-                <span className="text-dark-50">ResQ</span>
-                <span className="text-primary-600">AI</span>
+                <span className="text-white">ResQ</span>
+                <span className="text-accent-400">AI</span>
               </span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 rounded-full bg-dark-800 text-dark-300 hover:bg-dark-700 transition-colors"
+                className="p-2 rounded-full bg-white/5 text-white hover:bg-white/10 transition-colors"
               >
                 <X size={20} />
               </button>
@@ -160,7 +160,7 @@ export default function Navbar() {
                   transition={{ delay: idx * 0.08 }}
                   key={link.name}
                   href={link.path}
-                  className="text-2xl font-bold text-dark-50 hover:text-primary-600 transition-colors"
+                  className="text-2xl font-bold text-white hover:text-accent-400 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
@@ -181,7 +181,7 @@ export default function Navbar() {
                   </Link>
                   <button
                     onClick={() => { logout(); setIsOpen(false); }}
-                    className="w-full text-center py-3 text-sm font-semibold text-red-500 bg-dark-800 rounded-xl hover:bg-dark-700"
+                    className="w-full text-center py-3 text-sm font-semibold text-emergency-400 bg-white/5 rounded-xl hover:bg-white/10"
                   >
                     Logout
                   </button>
@@ -190,7 +190,7 @@ export default function Navbar() {
                 <div className="flex flex-col gap-3">
                   <Link
                     to="/login"
-                    className="w-full text-center py-3.5 text-sm font-semibold text-dark-50 bg-white border border-dark-700 rounded-xl"
+                    className="w-full text-center py-3.5 text-sm font-semibold text-white bg-white/5 border border-white/10 rounded-xl"
                     onClick={() => setIsOpen(false)}
                   >
                     Login

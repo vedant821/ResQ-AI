@@ -36,7 +36,7 @@ export default function Testimonials() {
           className="text-center mb-16"
         >
           <p className="text-primary-400 text-sm font-semibold uppercase tracking-wider mb-3">Testimonials</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-dark-100 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Trusted by <span className="gradient-text">Professionals</span>
           </h2>
           <p className="text-dark-400 max-w-xl mx-auto">
@@ -70,7 +70,7 @@ export default function Testimonials() {
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-dark-100">{testimonial.name}</p>
+                  <p className="text-sm font-semibold text-white">{testimonial.name}</p>
                   <p className="text-xs text-dark-500">{testimonial.role}</p>
                 </div>
               </div>

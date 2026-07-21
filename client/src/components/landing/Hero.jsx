@@ -33,7 +33,7 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-dark-950 pt-24 noise-bg"
     >
       {/* Background patterns */}
-      <div className="absolute inset-0 bg-grid opacity-50" />
+      <div className="absolute inset-0 bg-grid opacity-80" />
       <div className="absolute inset-0 bg-radial-gradient" />
 
       {/* Aurora Orbs */}
@@ -44,7 +44,7 @@ export default function Hero() {
           scale: [1, 1.15, 0.9, 1] 
         }}
         transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-10 left-[10%] w-[450px] h-[450px] bg-primary-500/5 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-10 left-[10%] w-[450px] h-[450px] bg-primary-500/10 rounded-full blur-[120px] pointer-events-none"
       />
       <motion.div
         animate={{ 
@@ -53,7 +53,7 @@ export default function Hero() {
           scale: [1, 0.9, 1.1, 1] 
         }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-10 right-[10%] w-[500px] h-[500px] bg-secondary-500/5 rounded-full blur-[130px] pointer-events-none"
+        className="absolute bottom-10 right-[10%] w-[500px] h-[500px] bg-secondary-500/10 rounded-full blur-[130px] pointer-events-none"
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 md:py-24">
@@ -67,9 +67,9 @@ export default function Hero() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold tracking-wide text-primary-600"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold tracking-wide text-accent-300"
             >
-              <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-accent-400 animate-pulse" />
               Vision AI Incident Dispatch Engine
             </motion.div>
 
@@ -80,7 +80,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-black tracking-tight leading-[1.05]"
             >
-              <span className="text-dark-100">Every Second</span>
+              <span className="text-white">Every Second</span>
               <br />
               <span className="gradient-text-emergency">Saves a Life.</span>
             </motion.h1>
@@ -90,7 +90,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-dark-300 text-base md:text-lg max-w-xl leading-relaxed text-balance"
+              className="text-dark-400 text-base md:text-lg max-w-xl leading-relaxed text-balance"
             >
               ResQ AI coordinates crisis triage using next-gen computer vision. Instantly classify incident categories, predict severity indices, and dispatch automated live-saving emergency instructions to bystanders before the ambulance arrives.
             </motion.p>
@@ -117,7 +117,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="grid grid-cols-3 gap-6 pt-6 border-t border-dark-700"
+              className="grid grid-cols-3 gap-6 pt-6 border-t border-white/5"
             >
               {[
                 { value: '12 min', label: 'Response Time' },
@@ -125,8 +125,8 @@ export default function Hero() {
                 { value: '24/7', label: 'Live Triage' },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <p className="text-xl sm:text-2xl font-bold text-dark-100">{stat.value}</p>
-                  <p className="text-xs text-dark-300 mt-1">{stat.label}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-white">{stat.value}</p>
+                  <p className="text-xs text-dark-400 mt-1">{stat.label}</p>
                 </div>
               ))}
             </motion.div>
@@ -149,14 +149,14 @@ export default function Hero() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
-                      <Brain size={16} className="text-red-500 animate-pulse" />
+                      <Brain size={16} className="text-red-400 animate-pulse" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-dark-100">Vision AI Triage</p>
-                      <p className="text-[10px] text-dark-300">Processing Incident stream...</p>
+                      <p className="text-xs font-semibold text-white">Vision AI Triage</p>
+                      <p className="text-[10px] text-dark-400">Processing Incident stream...</p>
                     </div>
                   </div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200 font-bold uppercase tracking-wider animate-pulse">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 font-bold uppercase tracking-wider animate-pulse">
                     Critical
                   </span>
                 </div>
@@ -181,17 +181,17 @@ export default function Hero() {
                 {/* Lower dispatch progress details */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-dark-300">Classified Category:</span>
-                    <span className="font-semibold text-dark-100">Highway Multi-Vehicle Crash</span>
+                    <span className="text-dark-400">Classified Category:</span>
+                    <span className="font-semibold text-white">Highway Multi-Vehicle Crash</span>
                   </div>
-                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                     <motion.div 
                       animate={{ width: ['20%', '85%', '85%'] }}
                       transition={{ duration: 3, repeat: Infinity, repeatDelay: 1 }}
                       className="h-full bg-gradient-to-r from-red-500 to-accent-500 rounded-full"
                     />
                   </div>
-                  <p className="text-[10px] text-dark-300 italic">Dispatched medical crew, alert routed to trauma centers.</p>
+                  <p className="text-[10px] text-dark-400 italic">Dispatched medical crew, alert routed to trauma centers.</p>
                 </div>
               </motion.div>
 
@@ -203,13 +203,13 @@ export default function Hero() {
                 className="absolute top-1/4 right-0 w-44 glass-card p-4 shadow-2xl pointer-events-none transform -translate-y-1/2"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <Activity size={14} className="text-accent-500" />
-                  <span className="text-[10px] font-semibold text-dark-100 uppercase tracking-wider">Telemetry</span>
+                  <Activity size={14} className="text-accent-400" />
+                  <span className="text-[10px] font-semibold text-white uppercase tracking-wider">Telemetry</span>
                 </div>
-                <p className="text-lg font-black text-dark-100 leading-none">104 <span className="text-[10px] font-normal text-dark-300">BPM</span></p>
+                <p className="text-lg font-black text-white leading-none">104 <span className="text-[10px] font-normal text-dark-400">BPM</span></p>
                 
                 {/* Micro SVG spark graph */}
-                <svg className="w-full h-8 mt-2 text-accent-500" viewBox="0 0 100 30" fill="none">
+                <svg className="w-full h-8 mt-2 text-accent-400" viewBox="0 0 100 30" fill="none">
                   <path d="M0 15 L20 15 L25 5 L30 25 L35 12 L40 15 L70 15 L75 0 L80 30 L85 10 L90 15 L100 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </motion.div>
@@ -222,12 +222,12 @@ export default function Hero() {
                 className="absolute bottom-12 left-0 w-52 glass-card p-3 shadow-2xl pointer-events-none"
               >
                 <div className="flex items-start gap-2.5">
-                  <div className="p-1.5 rounded-lg bg-red-50 text-red-500 border border-red-100">
+                  <div className="p-1.5 rounded-lg bg-red-500/25 text-red-400">
                     <AlertTriangle size={14} />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-dark-100">Emergency Dispatched</p>
-                    <p className="text-[9px] text-dark-300 mt-0.5">Ambulance #12 arrived on site (4.2m)</p>
+                    <p className="text-xs font-semibold text-white">Emergency Dispatched</p>
+                    <p className="text-[9px] text-dark-400 mt-0.5">Ambulance #12 arrived on site (4.2m)</p>
                   </div>
                 </div>
               </motion.div>

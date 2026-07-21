@@ -48,7 +48,7 @@ export default function HowItWorks() {
           className="text-center mb-16"
         >
           <p className="text-primary-400 text-sm font-semibold uppercase tracking-wider mb-3">Process</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-dark-100 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             How <span className="gradient-text-emergency">ResQ AI</span> Works
           </h2>
           <p className="text-dark-400 max-w-2xl mx-auto">
@@ -88,7 +88,7 @@ export default function HowItWorks() {
                   </div>
                 )}
 
-                <h3 className="text-lg font-semibold text-dark-100 mb-2">{step.title}</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
                 <p className="text-sm text-dark-400 leading-relaxed">{step.description}</p>
               </motion.div>
             ))}

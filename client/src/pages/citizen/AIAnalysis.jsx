@@ -51,12 +51,12 @@ export default function AIAnalysis() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 rounded-lg text-dark-400 hover:text-primary-600 hover:bg-dark-800 transition-colors"
+          className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-dark-800 transition-colors"
         >
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-dark-100 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
             <Brain size={24} className="text-primary-400" />
             AI Analysis Report
           </h1>
@@ -75,7 +75,7 @@ export default function AIAnalysis() {
             <CheckCircle size={20} className="text-green-400" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-dark-100">Analysis Complete</p>
+            <p className="text-sm font-semibold text-white">Analysis Complete</p>
             <p className="text-xs text-dark-400">AI has successfully analyzed the incident report</p>
           </div>
         </div>
@@ -92,14 +92,14 @@ export default function AIAnalysis() {
             transition={{ delay: 0.1 }}
             className="glass-card p-6"
           >
-            <h3 className="text-lg font-semibold text-dark-100 flex items-center gap-2 mb-4">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
               <Target size={18} className="text-primary-400" />
               Incident Classification
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="p-4 rounded-xl bg-dark-800/50">
                 <p className="text-xs text-dark-500 uppercase tracking-wider mb-1">Type</p>
-                <p className="text-lg font-bold text-dark-100">{analysis?.incidentType}</p>
+                <p className="text-lg font-bold text-white">{analysis?.incidentType}</p>
               </div>
               <div className="p-4 rounded-xl bg-dark-800/50">
                 <p className="text-xs text-dark-500 uppercase tracking-wider mb-1">Severity</p>
@@ -130,7 +130,7 @@ export default function AIAnalysis() {
             transition={{ delay: 0.2 }}
             className="glass-card p-6"
           >
-            <h3 className="text-lg font-semibold text-dark-100 flex items-center gap-2 mb-4">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
               <Heart size={18} className="text-emergency-400" />
               First Aid Instructions
             </h3>
@@ -159,7 +159,7 @@ export default function AIAnalysis() {
             transition={{ delay: 0.3 }}
             className="glass-card p-6"
           >
-            <h3 className="text-lg font-semibold text-dark-100 flex items-center gap-2 mb-4">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
               <Lightbulb size={18} className="text-amber-400" />
               AI Recommendations
             </h3>
@@ -205,7 +205,7 @@ export default function AIAnalysis() {
             transition={{ delay: 0.25 }}
             className="glass-card p-6"
           >
-            <h3 className="text-sm font-semibold text-dark-100 flex items-center gap-2 mb-4">
+            <h3 className="text-sm font-semibold text-white flex items-center gap-2 mb-4">
               <Truck size={16} className="text-primary-400" />
               Emergency Services Required
             </h3>
@@ -229,7 +229,7 @@ export default function AIAnalysis() {
             transition={{ delay: 0.35 }}
             className="glass-card p-6"
           >
-            <h3 className="text-sm font-semibold text-dark-100 mb-4">Incident Details</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">Incident Details</h3>
             <div className="space-y-3 text-sm">
               <div>
                 <p className="text-dark-500">Title</p>

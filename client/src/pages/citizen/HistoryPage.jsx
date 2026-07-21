@@ -35,7 +35,7 @@ export default function HistoryPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-dark-100 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
           <History size={24} className="text-primary-400" />
           Report History
         </h1>
@@ -99,7 +99,7 @@ export default function HistoryPage() {
                       </div>
                       <div className="space-y-1 flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="text-sm font-semibold text-dark-100 group-hover:text-primary-600 transition-colors">
+                          <h3 className="text-sm font-semibold text-white group-hover:text-primary-400 transition-colors">
                             {incident.title}
                           </h3>
                           <span className="text-xs text-dark-600">#{incident.id}</span>

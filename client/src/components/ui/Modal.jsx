@@ -28,10 +28,10 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
             className={`relative ${sizes[size]} w-full glass-card p-6 z-10`}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-dark-100">{title}</h3>
+              <h3 className="text-lg font-semibold text-white">{title}</h3>
               <button
                 onClick={onClose}
-                className="p-1 rounded-lg text-dark-400 hover:text-primary-600 hover:bg-dark-800 transition-colors"
+                className="p-1 rounded-lg text-dark-400 hover:text-white hover:bg-dark-700 transition-colors"
               >
                 <X size={20} />
               </button>

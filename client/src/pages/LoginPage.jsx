@@ -62,11 +62,11 @@ export default function LoginPage() {
               <Shield size={22} className="text-white" />
             </div>
             <span className="text-2xl font-bold">
-              <span className="text-dark-50">ResQ</span>
+              <span className="text-white">ResQ</span>
               <span className="gradient-text"> AI</span>
             </span>
           </Link>
-          <h1 className="text-xl font-semibold text-dark-100">Welcome Back</h1>
+          <h1 className="text-xl font-semibold text-white">Welcome Back</h1>
           <p className="text-sm text-dark-400 mt-1">Sign in to your account</p>
         </div>
 

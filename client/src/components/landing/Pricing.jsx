@@ -63,7 +63,7 @@ export default function Pricing() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20">
           <p className="text-accent-400 text-xs font-bold uppercase tracking-widest mb-3">Service Plans</p>
-          <h2 className="text-3xl md:text-5xl font-black text-dark-100 tracking-tight leading-none mb-6">
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-6">
             Flexible scale <br/>
             <span className="text-dark-400">for critical networks.</span>
           </h2>
@@ -97,7 +97,7 @@ export default function Pricing() {
               <div>
                 <p className="text-dark-400 text-xs font-bold uppercase tracking-wider mb-2">{plan.name}</p>
                 <div className="flex items-baseline gap-1 mb-4">
-                  <span className="text-4xl md:text-5xl font-black text-dark-100">{plan.price}</span>
+                  <span className="text-4xl md:text-5xl font-black text-white">{plan.price}</span>
                   {plan.period && <span className="text-sm text-dark-400">{plan.period}</span>}
                 </div>
                 <p className="text-xs text-dark-400 leading-relaxed mb-8">{plan.description}</p>
@@ -106,8 +106,8 @@ export default function Pricing() {
                 <div className="space-y-3.5 mb-8">
                   {plan.features.map((feature) => (
                     <div key={feature} className="flex items-start gap-2.5 text-xs text-dark-300">
-                      <div className="w-4 h-4 rounded-full bg-dark-800 border border-dark-700 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check size={10} className="text-accent-500" />
+                      <div className="w-4 h-4 rounded-full bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check size={10} className="text-accent-400" />
                       </div>
                       <span>{feature}</span>
                     </div>
