@@ -140,7 +140,7 @@ export default function IncidentTable() {
                     <div className="flex items-center gap-3">
                       <span className="text-lg">{typeEmoji[incident.type] || '🆘'}</span>
                       <div>
-                        <p className="text-sm font-medium text-white">{incident.title}</p>
+                        <p className="text-sm font-medium text-dark-100">{incident.title}</p>
                         <p className="text-xs text-dark-500">{incident.type} • #{incident.id}</p>
                       </div>
                     </div>
@@ -168,14 +168,14 @@ export default function IncidentTable() {
                     <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => { setSelectedIncident(incident); setDetailModalOpen(true); }}
-                        className="p-1.5 rounded-lg text-dark-400 hover:text-primary-400 hover:bg-dark-700 transition-colors"
+                        className="p-1.5 rounded-lg text-dark-400 hover:text-primary-600 hover:bg-dark-800 transition-colors"
                         title="View Details"
                       >
                         <Eye size={16} />
                       </button>
                       <button
                         onClick={() => { setSelectedIncident(incident); setStatusModalOpen(true); }}
-                        className="p-1.5 rounded-lg text-dark-400 hover:text-amber-400 hover:bg-dark-700 transition-colors"
+                        className="p-1.5 rounded-lg text-dark-400 hover:text-amber-600 hover:bg-dark-800 transition-colors"
                         title="Update Status"
                       >
                         <Edit3 size={16} />
@@ -207,7 +207,7 @@ export default function IncidentTable() {
         {selectedIncident && (
           <div className="space-y-4">
             <div className="p-3 rounded-xl bg-dark-800/50">
-              <p className="text-sm font-medium text-white">{selectedIncident.title}</p>
+              <p className="text-sm font-medium text-dark-100">{selectedIncident.title}</p>
               <p className="text-xs text-dark-400 mt-1">
                 Current: <Badge variant="status" type={selectedIncident.status} className="ml-1" />
               </p>
@@ -244,7 +244,7 @@ export default function IncidentTable() {
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 rounded-xl bg-dark-800/30">
                 <p className="text-xs text-dark-500 mb-1">Type</p>
-                <p className="text-sm text-white">{typeEmoji[selectedIncident.type]} {selectedIncident.type}</p>
+                <p className="text-sm text-dark-100">{typeEmoji[selectedIncident.type]} {selectedIncident.type}</p>
               </div>
               <div className="p-3 rounded-xl bg-dark-800/30">
                 <p className="text-xs text-dark-500 mb-1">Severity</p>

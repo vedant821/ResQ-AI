@@ -32,7 +32,7 @@ export default function ActivityTimeline({ incidents }) {
 
   return (
     <div className="glass-card p-5">
-      <h3 className="text-sm font-semibold text-white flex items-center gap-2 mb-4">
+      <h3 className="text-sm font-semibold text-dark-100 flex items-center gap-2 mb-4">
         <Activity size={16} className="text-primary-400" />
         Recent Activity
       </h3>
@@ -62,7 +62,7 @@ export default function ActivityTimeline({ incidents }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm">{typeEmoji[incident.type] || '🆘'}</span>
-                <p className="text-xs font-medium text-white truncate">{incident.title}</p>
+                <p className="text-xs font-medium text-dark-100 truncate">{incident.title}</p>
               </div>
               <div className="flex items-center gap-2 mt-1">
                 <Badge type={incident.severity} className="text-[10px] px-1.5 py-0" />
