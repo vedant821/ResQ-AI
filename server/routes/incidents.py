@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from database.store import get_incidents, get_incident_by_id, add_incident, update_incident_status
 from services.ai_service import analyze_incident
+from services.notification_service import send_incident_email
 import time
 
 router = APIRouter(prefix="/api/incidents", tags=["incidents"])
@@ -47,6 +48,10 @@ async def create_incident(data: dict):
     }
 
     add_incident(incident)
+    
+    # Trigger real-time email notification
+    send_incident_email(incident)
+    
     return incident
 
 
