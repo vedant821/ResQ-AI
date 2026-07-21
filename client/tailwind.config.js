@@ -9,41 +9,41 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#f5f3ff',
-          100: '#eedeff',
-          200: '#d9c2ff',
-          300: '#bca6ff',
-          400: '#9f85ff',
-          500: '#6366f1',  // Indigo accent
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#2563eb',  // Premium Royal Blue
+          600: '#1d4ed8',
+          700: '#1e40af',
+          800: '#1e3a8a',
+          900: '#172554',
+          950: '#0f172a',
         },
         secondary: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',  // Purple accent
-          600: '#9333ea',
-          700: '#7e22ce',
-          800: '#6b21a8',
-          900: '#581c87',
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',  // Slate/Grey
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
         },
         accent: {
-          50: '#ecfeff',
-          100: '#cffafe',
-          200: '#a5f3fc',
-          300: '#67e8f9',
-          400: '#22d3ee',
-          500: '#06b6d4',  // Cyan accent
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#155e75',
-          900: '#164e63',
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',  // Muted Emerald
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
         },
         emergency: {
           50: '#fef2f2',
@@ -58,17 +58,17 @@ export default {
           900: '#7f1d1d',
         },
         dark: {
-          50: '#f8fafc',   // Text Primary
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#94a3b8',
-          400: '#64748b',  // Muted Text
-          500: '#475569',
-          600: '#334155',
-          700: '#161f30',  // Obsidian border color
-          800: '#0b111e',  // Obsidian card background
-          900: '#060a12',  // Obsidian darker surface
-          950: '#030508',  // Obsidian body background
+          50: '#ffffff',   // Clean White text
+          100: '#f8fafc',
+          200: '#f1f5f9',
+          300: '#cbd5e1',  // Silver text
+          400: '#94a3b8',  // Muted text
+          500: '#64748b',
+          600: '#475569',
+          700: '#222530',  // Premium Dark Slate border
+          800: '#11131c',  // Premium Dark Slate card bg
+          900: '#0b0c12',  // Darker Slate surface
+          950: '#06070a',  // Carbon Body background
         },
         severity: {
           critical: '#ef4444',
