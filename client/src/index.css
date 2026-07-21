@@ -120,7 +120,7 @@
   }
 
   .btn-primary {
-    @apply px-6 py-3 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 text-white font-semibold rounded-xl 
+    @apply px-6 py-3 bg-gradient-to-r from-[#2563eb] via-[#7c3aed] to-[#06b6d4] text-white font-semibold rounded-xl 
            transition-all duration-300 
            shadow-lg shadow-primary-500/10 hover:shadow-primary-500/30 hover:scale-[1.02]
            active:scale-95 transform;
