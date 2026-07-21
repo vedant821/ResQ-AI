@@ -34,17 +34,17 @@ export default {
           900: '#7f1d1d',
         },
         dark: {
-          50: '#09090b',   // zinc-950 (dark text)
-          100: '#18181b',  // zinc-900
-          200: '#27272a',  // zinc-800
-          300: '#3f3f46',  // zinc-700
-          400: '#71717a',  // zinc-500
-          500: '#a1a1aa',  // zinc-400
-          600: '#d4d4d8',  // zinc-300
-          700: '#e4e4e7',  // zinc-200
-          800: '#f4f4f5',  // zinc-100
-          900: '#f9f9fb',  // zinc-50
-          950: '#ffffff',  // white bg
+          50: '#0f172a',   // slate-900 (primary headings)
+          100: '#1e293b',  // slate-800
+          200: '#334155',  // slate-700
+          300: '#475569',  // slate-600 (body text)
+          400: '#64748b',  // slate-500
+          500: '#94a3b8',  // slate-400
+          600: '#cbd5e1',  // slate-300
+          700: '#e2e8f0',  // slate-200 (borders)
+          800: '#f1f5f9',  // slate-100 (inputs/highlights)
+          900: '#ffffff',  // white (cards)
+          950: '#f8fafc',  // slate-50 (main bg)
         },
         severity: {
           critical: '#ef4444',
