@@ -9,17 +9,17 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#2563eb',  // Deep Blue
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          50: '#f5f3ff',
+          100: '#eedeff',
+          200: '#d9c2ff',
+          300: '#bca6ff',
+          400: '#9f85ff',
+          500: '#6366f1',  // Indigo accent
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
         },
         secondary: {
           50: '#faf5ff',
@@ -27,11 +27,11 @@ export default {
           200: '#e9d5ff',
           300: '#d8b4fe',
           400: '#c084fc',
-          500: '#7c3aed',  // Purple
-          600: '#6d28d9',
-          700: '#5b21b6',
-          800: '#4c1d95',
-          900: '#3b0764',
+          500: '#a855f7',  // Purple accent
+          600: '#9333ea',
+          700: '#7e22ce',
+          800: '#6b21a8',
+          900: '#581c87',
         },
         accent: {
           50: '#ecfeff',
@@ -39,7 +39,7 @@ export default {
           200: '#a5f3fc',
           300: '#67e8f9',
           400: '#22d3ee',
-          500: '#06b6d4',  // Cyan
+          500: '#06b6d4',  // Cyan accent
           600: '#0891b2',
           700: '#0e7490',
           800: '#155e75',
@@ -58,17 +58,17 @@ export default {
           900: '#7f1d1d',
         },
         dark: {
-          50: '#f8fafc',   // Text: #F8FAFC
+          50: '#f8fafc',   // Text Primary
           100: '#f1f5f9',
           200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',  // Muted Text: #94A3B8
-          500: '#64748b',
-          600: '#475569',
-          700: '#1e293b',  // Surface / borders: #1E293B
-          800: '#0f172a',  // Surface: #0F172A
-          900: '#111827',  // Cards: #111827
-          950: '#050816',  // Background: #050816
+          300: '#94a3b8',
+          400: '#64748b',  // Muted Text
+          500: '#475569',
+          600: '#334155',
+          700: '#161f30',  // Obsidian border color
+          800: '#0b111e',  // Obsidian card background
+          900: '#060a12',  // Obsidian darker surface
+          950: '#030508',  // Obsidian body background
         },
         severity: {
           critical: '#ef4444',
