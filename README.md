@@ -236,8 +236,4 @@ Author
 
 Vedant Khade
 
-JD College of Engineering and Management
-
-Final Year Engineering Project
-
 Thank you for visiting this project.
