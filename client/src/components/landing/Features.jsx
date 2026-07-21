@@ -13,84 +13,81 @@ import {
 const features = [
   {
     icon: Camera,
-    title: 'Image-Based Analysis',
-    description: 'Upload incident photos for instant AI-powered classification and severity assessment.',
-    color: 'from-blue-500/20 to-blue-600/5',
-    iconColor: 'bg-blue-500/20 text-blue-400',
+    title: 'Computer Vision AI',
+    description: 'Instantly classifies incident scenes from image uploads with high accuracy rates.',
+    glow: 'group-hover:border-blue-500/30 group-hover:shadow-blue-500/5',
+    iconColor: 'text-blue-400',
   },
   {
     icon: Brain,
-    title: 'AI Severity Prediction',
-    description: 'Advanced algorithms estimate incident severity — Critical, High, Medium, or Low — in seconds.',
-    color: 'from-violet-500/20 to-violet-600/5',
-    iconColor: 'bg-violet-500/20 text-violet-400',
+    title: 'Severity Indexing',
+    description: 'Advanced heuristic scoring models predict severity indices in real time.',
+    glow: 'group-hover:border-purple-500/30 group-hover:shadow-purple-500/5',
+    iconColor: 'text-purple-400',
   },
   {
     icon: Heart,
-    title: 'First-Aid Guidance',
-    description: 'Get immediate, step-by-step first-aid instructions tailored to the specific emergency type.',
-    color: 'from-red-500/20 to-red-600/5',
-    iconColor: 'bg-red-500/20 text-red-400',
+    title: 'Live First-Aid Generator',
+    description: 'Tailors immediate step-by-step guidance instructions for active bystanders.',
+    glow: 'group-hover:border-red-500/30 group-hover:shadow-red-500/5',
+    iconColor: 'text-red-400',
   },
   {
     icon: FileBarChart,
-    title: 'Automated Reports',
-    description: 'Structured incident reports generated automatically with all critical details for responders.',
-    color: 'from-green-500/20 to-green-600/5',
-    iconColor: 'bg-green-500/20 text-green-400',
+    title: 'Structured Auditing',
+    description: 'Synthesizes incident reports containing telemetry logs for responder dispatch.',
+    glow: 'group-hover:border-green-500/30 group-hover:shadow-green-500/5',
+    iconColor: 'text-green-400',
   },
   {
     icon: Zap,
-    title: 'Real-time Dashboard',
-    description: 'Live monitoring dashboard for administrators to track, prioritize, and manage incidents.',
-    color: 'from-amber-500/20 to-amber-600/5',
-    iconColor: 'bg-amber-500/20 text-amber-400',
+    title: 'Central Control Hub',
+    description: 'Real-time telemetry dashboards aggregate active cases by threat severity.',
+    glow: 'group-hover:border-amber-500/30 group-hover:shadow-amber-500/5',
+    iconColor: 'text-amber-400',
   },
   {
     icon: MapPin,
-    title: 'Location Tracking',
-    description: 'Precise location reporting to help emergency services reach incident sites faster.',
-    color: 'from-cyan-500/20 to-cyan-600/5',
-    iconColor: 'bg-cyan-500/20 text-cyan-400',
+    title: 'Geo-Tracking Routing',
+    description: 'Pins accurate coordinate logs to speed up dispatch routes and response times.',
+    glow: 'group-hover:border-cyan-500/30 group-hover:shadow-cyan-500/5',
+    iconColor: 'text-cyan-400',
   },
   {
     icon: Bell,
-    title: 'Instant Notifications',
-    description: 'Real-time status updates and notifications for both citizens and administrators.',
-    color: 'from-orange-500/20 to-orange-600/5',
-    iconColor: 'bg-orange-500/20 text-orange-400',
+    title: 'Interactive Alerts',
+    description: 'Sends automated updates across dispatch crews and bystanders.',
+    glow: 'group-hover:border-orange-500/30 group-hover:shadow-orange-500/5',
+    iconColor: 'text-orange-400',
   },
   {
     icon: Shield,
-    title: 'Priority Assignment',
-    description: 'AI automatically assigns priority scores to ensure critical incidents get attention first.',
-    color: 'from-emerald-500/20 to-emerald-600/5',
-    iconColor: 'bg-emerald-500/20 text-emerald-400',
+    title: 'Crisis Queue Sorting',
+    description: 'Automates critical incident sorting queues to focus responders on high-risk cases.',
+    glow: 'group-hover:border-emerald-500/30 group-hover:shadow-emerald-500/5',
+    iconColor: 'text-emerald-400',
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-24 relative">
-      <div className="absolute inset-0 bg-radial-gradient opacity-50" />
+    <section id="features" className="py-32 relative bg-dark-950/40">
+      <div className="absolute inset-0 bg-radial-gradient opacity-30" />
+      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="text-primary-400 text-sm font-semibold uppercase tracking-wider mb-3">Features</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Powered by <span className="gradient-text">Intelligence</span>
+        {/* Section Header */}
+        <div className="max-w-3xl mb-24">
+          <p className="text-accent-400 text-xs font-bold uppercase tracking-widest mb-3">Intelligence Core</p>
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-6">
+            Autonomous triage systems <br/>
+            <span className="text-dark-400">built for the frontlines.</span>
           </h2>
-          <p className="text-dark-400 max-w-2xl mx-auto">
-            Every feature is designed to minimize response time and maximize the chance of saving lives during emergencies.
+          <p className="text-dark-400 text-base leading-relaxed max-w-2xl">
+            Every layer of ResQ AI is engineered to minimize coordination friction, ensuring life-saving dispatch telemetry reaches first responders instantly.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Grid */}
+        {/* Feature Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <motion.div
@@ -98,14 +95,24 @@ export default function Features() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
-              className={`glass-card p-6 bg-gradient-to-br ${feature.color} group`}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              className={`glass-card p-6 flex flex-col justify-between group cursor-default transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${feature.glow}`}
             >
-              <div className={`w-12 h-12 rounded-xl ${feature.iconColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <feature.icon size={22} />
+              <div>
+                {/* Icon wrapper */}
+                <div className={`w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center mb-6 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 ${feature.iconColor}`}>
+                  <feature.icon size={20} className="transition-transform group-hover:scale-110" />
+                </div>
+                <h3 className="text-white font-bold text-base mb-2 group-hover:text-accent-400 transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-xs text-dark-400 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="text-white font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm text-dark-400 leading-relaxed">{feature.description}</p>
+
+              {/* Decorative light line at card bottom */}
+              <div className="h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 mt-6 transition-all duration-500 rounded-full" />
             </motion.div>
           ))}
         </div>
