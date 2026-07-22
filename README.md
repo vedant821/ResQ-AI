@@ -237,3 +237,7 @@ Author
 Vedant Khade
 
 Thank you for visiting this project.
+
+Admin Page id  :-admin@demo.com
+password : - admin123
+
