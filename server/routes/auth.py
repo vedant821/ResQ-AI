@@ -1,13 +1,15 @@
 from fastapi import APIRouter, HTTPException
-from database.store import get_user_by_email, add_user, get_users
+from database.store import get_user_by_email, add_user
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 
 @router.post("/login")
 async def login(data: dict):
-    user = get_user_by_email(data.get("email", ""))
-    if not user or user["password"] != data.get("password", ""):
+    email = data.get("email", "").strip()
+    password = data.get("password", "")
+    user = get_user_by_email(email)
+    if not user or user.get("password") != password:
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     return {
@@ -22,25 +24,70 @@ async def login(data: dict):
 
 @router.post("/register")
 async def register(data: dict):
-    existing = get_user_by_email(data.get("email", ""))
+    email = data.get("email", "").strip()
+    password = data.get("password", "")
+    name = data.get("name", "").strip()
+
+    if not email or not password or not name:
+        raise HTTPException(status_code=400, detail="name, email and password are required")
+
+    existing = get_user_by_email(email)
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    import time
-    new_user = {
-        "id": f"citizen-{int(time.time())}",
-        "name": data["name"],
-        "email": data["email"],
-        "password": data["password"],
+    user_row = {
+        "name": name,
+        "email": email,
+        "password": password,
         "role": "citizen",
-        "phone": data.get("phone"),
-        "location": data.get("location"),
+        "phone": data.get("phone") or None,
+        "location": data.get("location") or None,
     }
-    add_user(new_user)
+
+    created = add_user(user_row)
+    if not created:
+        raise HTTPException(status_code=500, detail="Failed to create user profile")
 
     return {
-        "id": new_user["id"],
-        "name": new_user["name"],
-        "email": new_user["email"],
-        "role": new_user["role"],
+        "id": created["id"],
+        "name": created["name"],
+        "email": created["email"],
+        "role": created["role"],
+        "phone": created.get("phone"),
+        "location": created.get("location"),
+    }
+
+
+@router.post("/create-admin")
+async def create_admin(data: dict):
+    email = data.get("email", "").strip()
+    password = data.get("password", "")
+    name = data.get("name", "Admin Officer").strip()
+
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="email and password are required")
+
+    existing = get_user_by_email(email)
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    user_row = {
+        "name": name,
+        "email": email,
+        "password": password,
+        "role": "admin",
+        "phone": data.get("phone") or None,
+        "location": data.get("location") or None,
+    }
+
+    created = add_user(user_row)
+    if not created:
+        raise HTTPException(status_code=500, detail="Failed to create admin account")
+
+    return {
+        "id": created["id"],
+        "name": created["name"],
+        "email": created["email"],
+        "role": created["role"],
+        "message": "Admin account created successfully",
     }

@@ -4,9 +4,15 @@ from services.ai_service import analyze_incident
 from services.notification_service import send_incident_email
 from services.pdf_service import generate_incident_pdf_stream
 from fastapi.responses import StreamingResponse
-import time
+from datetime import datetime, timezone
+import uuid
 
 router = APIRouter(prefix="/api/incidents", tags=["incidents"])
+
+
+def _generate_incident_id() -> str:
+    """Generate a short readable incident ID."""
+    return f"INC-{str(uuid.uuid4()).replace('-', '')[:6].upper()}"
 
 
 @router.get("/")
@@ -27,24 +33,24 @@ async def get_incident_pdf(incident_id: str):
     incident = get_incident_by_id(incident_id)
     if not incident:
         raise HTTPException(status_code=404, detail="Incident not found")
-    
+
     pdf_stream = generate_incident_pdf_stream(incident)
     return StreamingResponse(
         pdf_stream,
         media_type="application/pdf",
-        headers={"Content-Disposition": f"attachment; filename=ResQ-Report-{incident_id}.pdf"}
+        headers={"Content-Disposition": f"attachment; filename=ResQ-Report-{incident_id}.pdf"},
     )
 
 
 @router.post("/")
 async def create_incident(data: dict):
-    # Run AI analysis
+    # ── AI Analysis ────────────────────────────────────────────────────────────
     analysis = analyze_incident(
         description=data.get("description", ""),
         selected_type=data.get("type"),
     )
 
-    # Map AI classified type to actual dispatcher units autonomously
+    # ── Autonomous unit dispatch ────────────────────────────────────────────────
     dispatched_units = []
     incident_type = analysis["incident_type"]
     if incident_type in ["Road Accident", "Medical Emergency", "Fire", "Flood", "Earthquake", "Building Collapse", "Gas Leak", "Chemical Spill"]:
@@ -57,9 +63,10 @@ async def create_incident(data: dict):
         dispatched_units.append("Hazmat")
 
     status = "Assigned" if dispatched_units else "Pending"
+    now = datetime.now(timezone.utc).isoformat()
 
     incident = {
-        "id": f"INC-{str(int(time.time()))[-6:]}",
+        "id": _generate_incident_id(),
         "title": data["title"],
         "type": incident_type,
         "description": data["description"],
@@ -67,30 +74,31 @@ async def create_incident(data: dict):
         "status": status,
         "location": data.get("location", "Unknown"),
         "contact_number": data.get("contact_number"),
-        "reported_by": data.get("reported_by", "unknown"),
+        "reported_by": data.get("reported_by") or None,
         "reporter_name": data.get("reporter_name", "Anonymous"),
         "confidence": analysis["confidence"],
         "priority_score": analysis["priority_score"],
-        "image_url": data.get("image_url"),  # Support base64 image strings
+        "image_url": data.get("image_url"),
         "analysis": analysis,
         "dispatched_units": dispatched_units,
-        "created_at": f"{time.strftime('%Y-%m-%dT%H:%M:%S')}Z",
-        "updated_at": f"{time.strftime('%Y-%m-%dT%H:%M:%S')}Z",
+        "created_at": now,
+        "updated_at": now,
     }
 
-    add_incident(incident)
-    
-    # Trigger real-time email notification
-    send_incident_email(incident)
+    created = add_incident(incident)
+    if not created:
+        raise HTTPException(status_code=500, detail="Failed to save incident to database")
 
-    # Trigger Autonomous SMS dispatch simulation
+    # ── Notifications ───────────────────────────────────────────────────────────
+    send_incident_email(created)
+
     if dispatched_units:
         print(f"\n[AUTONOMOUS AI AGENT DISPATCH ALERT] Sent to reporter {data.get('reporter_name', 'Anonymous')} ({data.get('contact_number', 'N/A')}):")
         print(f"Update: ResQ AI Autonomous Agent has triaged this incident as '{status}'.")
         print(f"Automatically Dispatched: {', '.join(dispatched_units)} are en route to {data.get('location', 'Unknown')}.")
         print(f"=====================================\n")
-    
-    return incident
+
+    return created
 
 
 @router.patch("/{incident_id}/status")
@@ -108,7 +116,6 @@ async def change_status(incident_id: str, data: dict):
     if not updated:
         raise HTTPException(status_code=404, detail="Incident not found")
 
-    # Trigger SMS dispatch simulation
     if dispatched_units:
         print(f"\n[SMS DISPATCH ALERT] Sent to reporter {updated.get('reporter_name')} ({updated.get('contact_number')}):")
         print(f"Update: ResQ AI crew status is '{new_status}'. Dispatched units: {', '.join(dispatched_units)} are en route to {updated.get('location')}.")

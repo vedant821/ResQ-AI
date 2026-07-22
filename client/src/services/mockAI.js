@@ -130,21 +130,31 @@ const EMERGENCY_SERVICES = {
 };
 
 function classifyIncident(description, selectedType) {
-  if (selectedType && selectedType !== 'Other') return selectedType;
-
   const desc = description.toLowerCase();
   let bestMatch = 'Medical Emergency';
   let bestScore = 0;
+  let selectedScore = 0;
 
   for (const [type, keywords] of Object.entries(INCIDENT_KEYWORDS)) {
     let score = 0;
     for (const keyword of keywords) {
       if (desc.includes(keyword)) score++;
     }
+    if (type === selectedType) {
+      selectedScore = score;
+    }
     if (score > bestScore) {
       bestScore = score;
       bestMatch = type;
     }
+  }
+
+  if (bestScore === 0 && selectedType && selectedType !== 'Other') {
+    return selectedType;
+  }
+
+  if (selectedType && selectedType !== 'Other' && selectedScore >= bestScore - 1) {
+    return selectedType;
   }
 
   return bestMatch;

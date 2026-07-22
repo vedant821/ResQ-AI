@@ -8,9 +8,9 @@ router = APIRouter(prefix="/api/analytics", tags=["analytics"])
 async def get_summary():
     incidents = get_incidents()
     total = len(incidents)
-    critical = sum(1 for i in incidents if i["severity"] == "Critical")
-    resolved = sum(1 for i in incidents if i["status"] in ("Resolved", "Closed"))
-    pending = sum(1 for i in incidents if i["status"] == "Pending")
+    critical = sum(1 for i in incidents if i.get("severity") == "Critical")
+    resolved = sum(1 for i in incidents if i.get("status") in ("Resolved", "Closed"))
+    pending = sum(1 for i in incidents if i.get("status") == "Pending")
 
     return {
         "total_reports": total,

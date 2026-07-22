@@ -2,19 +2,23 @@ import { createContext, useContext, useState, useCallback, useEffect } from 'rea
 import { useAuth } from './AuthContext';
 
 const IncidentContext = createContext(null);
-const STORAGE_KEY = 'resq_incidents';
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+// ── Field name normaliser (snake_case DB → camelCase frontend) ────────────────
 const mapIncident = (inc) => {
   if (!inc) return inc;
-  
-  const mappedAnalysis = inc.analysis ? {
-    ...inc.analysis,
-    incidentType: inc.analysis.incident_type || inc.analysis.incidentType,
-    confidencePercent: inc.analysis.confidence_percent || inc.analysis.confidencePercent,
-    firstAid: inc.analysis.first_aid || inc.analysis.firstAid,
-    emergencyServices: inc.analysis.emergency_services || inc.analysis.emergencyServices,
-  } : null;
+
+  const mappedAnalysis = inc.analysis
+    ? {
+        ...inc.analysis,
+        incidentType: inc.analysis.incident_type || inc.analysis.incidentType,
+        confidencePercent:
+          inc.analysis.confidence_percent || inc.analysis.confidencePercent,
+        firstAid: inc.analysis.first_aid || inc.analysis.firstAid,
+        emergencyServices:
+          inc.analysis.emergency_services || inc.analysis.emergencyServices,
+      }
+    : null;
 
   return {
     ...inc,
@@ -24,6 +28,8 @@ const mapIncident = (inc) => {
     priorityScore: inc.priority_score || inc.priorityScore,
     imageUrl: inc.image_url || inc.imageUrl,
     dispatchedUnits: inc.dispatched_units || inc.dispatchedUnits || [],
+    createdAt: inc.created_at || inc.createdAt,
+    updatedAt: inc.updated_at || inc.updatedAt,
     analysis: mappedAnalysis,
   };
 };
@@ -33,60 +39,29 @@ export function IncidentProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-  // Helper to load fallback local storage data
-  const loadLocalFallback = useCallback(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch {
-        return [];
-      }
-    }
-    return [];
-  }, []);
-
-  // Fetch all incidents from FastAPI backend, fallback to localStorage
   const refreshIncidents = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${API_URL}/incidents/`);
-      if (res.ok) {
-        const data = await res.json();
-        const mapped = data.map(mapIncident);
-        setIncidents(mapped);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(mapped));
-      } else {
-        setIncidents(loadLocalFallback());
+      const res = await fetch(`${API_URL}/api/incidents/`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch incidents');
       }
+      const data = await res.json();
+      setIncidents((data || []).map(mapIncident));
     } catch (err) {
-      console.warn("Backend offline, falling back to local storage:", err);
-      setIncidents(loadLocalFallback());
+      console.error('Failed to fetch incidents:', err);
     } finally {
       setIsLoading(false);
     }
-  }, [loadLocalFallback]);
+  }, []);
 
-  // Load initially
   useEffect(() => {
     refreshIncidents();
   }, [refreshIncidents]);
 
-  const addIncident = useCallback(async (incidentData) => {
-    const tempId = `INC-${String(Date.now()).slice(-6)}`;
-    const newIncident = {
-      ...incidentData,
-      id: tempId,
-      status: 'Pending',
-      reportedBy: user?.id || 'unknown',
-      reporterName: user?.name || 'Anonymous',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    // Try posting to backend
-    try {
-      const res = await fetch(`${API_URL}/incidents/`, {
+  const addIncident = useCallback(
+    async (incidentData) => {
+      const res = await fetch(`${API_URL}/api/incidents/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -101,65 +76,40 @@ export function IncidentProvider({ children }) {
         }),
       });
 
-      if (res.ok) {
-        const created = await res.json();
-        const mappedCreated = mapIncident(created);
-        setIncidents((prev) => {
-          const updated = [mappedCreated, ...prev];
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-          return updated;
-        });
-        return mappedCreated;
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: 'Failed to create incident' }));
+        throw new Error(err.detail || 'Failed to create incident');
       }
-    } catch (err) {
-      console.warn("Post to backend failed, saving locally:", err);
-    }
 
-    // Local fallback save
-    setIncidents((prev) => {
-      const updated = [newIncident, ...prev];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      return updated;
-    });
-    return newIncident;
-  }, [user]);
+      const created = await res.json();
+      setIncidents((prev) => [mapIncident(created), ...prev]);
+      return mapIncident(created);
+    },
+    [user]
+  );
 
-  const updateStatus = useCallback(async (id, newStatus, dispatchedUnits = []) => {
-    // Try patching backend
-    try {
-      const res = await fetch(`${API_URL}/incidents/${id}/status`, {
+  const updateStatus = useCallback(
+    async (id, newStatus, dispatchedUnits = []) => {
+      const res = await fetch(`${API_URL}/api/incidents/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           status: newStatus,
-          dispatched_units: dispatchedUnits
+          dispatched_units: dispatchedUnits,
         }),
       });
 
-      if (res.ok) {
-        await refreshIncidents();
-        return;
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: 'Failed to update status' }));
+        throw new Error(err.detail || 'Failed to update status');
       }
-    } catch (err) {
-      console.warn("Patch status failed, updating locally:", err);
-    }
 
-    // Local fallback update
-    setIncidents((prev) => {
-      const updated = prev.map((inc) =>
-        inc.id === id
-          ? { 
-              ...inc, 
-              status: newStatus, 
-              dispatchedUnits: dispatchedUnits,
-              updatedAt: new Date().toISOString() 
-            }
-          : inc
-      );
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      const updated = await res.json();
+      setIncidents((prev) => prev.map((inc) => (inc.id === updated.id ? mapIncident(updated) : inc)));
       return updated;
-    });
-  }, [refreshIncidents]);
+    },
+    []
+  );
 
   const getIncident = useCallback(
     (id) => incidents.find((inc) => inc.id === id),
@@ -181,48 +131,46 @@ export function IncidentProvider({ children }) {
     [incidents]
   );
 
-  // Generate reactive real-time analytics data
+  // ── Reactive analytics computed from live incident data ─────────────────────
   const getAnalytics = useCallback(() => {
     const total = incidents.length;
     const critical = incidents.filter((i) => i.severity === 'Critical').length;
-    const resolved = incidents.filter((i) => i.status === 'Resolved' || i.status === 'Closed').length;
+    const resolved = incidents.filter(
+      (i) => i.status === 'Resolved' || i.status === 'Closed'
+    ).length;
     const pending = incidents.filter((i) => i.status === 'Pending').length;
 
-    // Reports per day grouping
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const reportsPerDay = days.map((day) => ({ date: day, reports: 0 }));
     incidents.forEach((inc) => {
       const dayIndex = new Date(inc.createdAt).getDay();
-      if (dayIndex >= 0 && dayIndex < 7) {
-        reportsPerDay[dayIndex].reports += 1;
-      }
+      if (dayIndex >= 0 && dayIndex < 7) reportsPerDay[dayIndex].reports += 1;
     });
-    // Reorder Mon to Sun
     const reorderedDays = [...reportsPerDay.slice(1), reportsPerDay[0]];
 
-    // Incident types distribution
     const typeColors = {
       'Road Accident': '#3b82f6',
-      'Fire': '#ef4444',
+      Fire: '#ef4444',
       'Medical Emergency': '#22c55e',
-      'Flood': '#06b6d4',
+      Flood: '#06b6d4',
       'Gas Leak': '#f59e0b',
-      'Earthquake': '#8b5cf6',
+      Earthquake: '#8b5cf6',
       'Building Collapse': '#a855f7',
       'Chemical Spill': '#ec4899',
     };
-    const incidentsByType = Object.keys(typeColors).map((type) => ({
-      name: type,
-      value: incidents.filter((i) => i.type === type).length,
-      color: typeColors[type],
-    })).filter(item => item.value > 0);
+    const incidentsByType = Object.keys(typeColors)
+      .map((type) => ({
+        name: type,
+        value: incidents.filter((i) => i.type === type).length,
+        color: typeColors[type],
+      }))
+      .filter((item) => item.value > 0);
 
-    // Severity distribution
     const severityColors = {
-      'Critical': '#ef4444',
-      'High': '#f97316',
-      'Medium': '#eab308',
-      'Low': '#22c55e',
+      Critical: '#ef4444',
+      High: '#f97316',
+      Medium: '#eab308',
+      Low: '#22c55e',
     };
     const severityDistribution = Object.keys(severityColors).map((sev) => ({
       name: sev,
@@ -230,8 +178,10 @@ export function IncidentProvider({ children }) {
       color: severityColors[sev],
     }));
 
-    // Monthly trend
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
     const monthlyTrend = months.map((m) => ({ month: m, incidents: 0, resolved: 0 }));
     incidents.forEach((inc) => {
       const monthIndex = new Date(inc.createdAt).getMonth();
@@ -251,7 +201,10 @@ export function IncidentProvider({ children }) {
       avgResponseTime: '12 min',
       resolutionRate: total > 0 ? Math.round((resolved / total) * 100) : 0,
       reportsPerDay: reorderedDays,
-      incidentsByType: incidentsByType.length > 0 ? incidentsByType : [{ name: 'None', value: 1, color: '#64748b' }],
+      incidentsByType:
+        incidentsByType.length > 0
+          ? incidentsByType
+          : [{ name: 'None', value: 1, color: '#64748b' }],
       severityDistribution,
       monthlyTrend: monthlyTrend.slice(0, new Date().getMonth() + 1),
     };

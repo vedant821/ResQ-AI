@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()  # Load server/.env before any other module initialises
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.auth import router as auth_router
